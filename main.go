@@ -59,7 +59,7 @@ func main() {
 		// Get a random row from the database
 		row := Feladat{}
 		err := db.QueryRow("SELECT * FROM db_erettsegizteto.t_question WHERE id = $1",
-			rand.Intn(3)+1).Scan(&row.ID, &row.Year, &row.Semester, &row.Number, &row.Question, &row.Answer, &row.Generated)
+			rand.Intn(3)+1).Scan(&row.ID, &row.Question, &row.Answer, &row.Generated, &row.Year, &row.Semester, &row.Number)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
