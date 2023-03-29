@@ -15,13 +15,13 @@ import (
 )
 
 type Feladat struct {
-	ID       int
-	Ev       sql.NullInt64
-	Felev    sql.NullInt64
-	Sorszam  sql.NullInt64
-	Kerdes   string
-	Megoldas string
-	Generalt bool
+	ID        int
+	Question  string
+	Answer    string
+	Generated bool
+	Year      sql.NullInt64
+	Semester  sql.NullInt64
+	Number    sql.NullInt64
 }
 
 func determineListenAddress() (string, error) {
@@ -58,7 +58,8 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// Get a random row from the database
 		row := Feladat{}
-		err := db.QueryRow("SELECT * FROM erettsegizteto.feladat WHERE id = $1", rand.Intn(5)+1).Scan(&row.ID, &row.Ev, &row.Felev, &row.Sorszam, &row.Kerdes, &row.Megoldas, &row.Generalt)
+		err := db.QueryRow("SELECT * FROM db_erettsegizteto.t_question WHERE id = $1",
+			rand.Intn(3)+1).Scan(&row.ID, &row.Year, &row.Semester, &row.Number, &row.Question, &row.Answer, &row.Generated)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -66,14 +67,14 @@ func main() {
 
 		// Execute HTML template
 		err = tmpl.Execute(w, map[string]interface{}{
-			"Kerdes":   row.Kerdes,
-			"Ev":       nullToString(row.Ev),
-			"Felev":    nullToString(row.Felev),
-			"Sorszam":  nullToString(row.Sorszam),
-			"Generalt": row.Generalt,
+			"Kerdes":   row.Question,
+			"Ev":       nullToString(row.Year),
+			"Felev":    nullToString(row.Semester),
+			"Sorszam":  nullToString(row.Number),
+			"Generalt": row.Generated,
 			"Method":   r.Method,
 			"Answer":   r.FormValue("answer"),
-			"Megoldas": row.Megoldas,
+			"Megoldas": row.Answer,
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
