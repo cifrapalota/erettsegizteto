@@ -7,6 +7,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 	"hu.erettsegizteto/internal/models"
 )
 
@@ -15,7 +16,11 @@ type Storage struct {
 }
 
 func NewStorage(dsn string) (*Storage, error) {
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix: "db_erettsegizteto.", // schema name
+		},
+	})
 	if err != nil {
 		return nil, err
 	}

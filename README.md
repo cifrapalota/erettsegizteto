@@ -10,7 +10,7 @@ erettsegizteto.hu
 
 # Database structure
 schema: db_erettsegizteto
-table name:  t_question
+table name:  questions
 fields:
 {
     "id":	        "serial4"
