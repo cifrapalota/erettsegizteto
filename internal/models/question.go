@@ -6,7 +6,7 @@ type Question struct {
 	Question  string `json:"question"`
 	Answer    string `json:"answer"`
 	Generated bool   `json:"generated"`
-	Year      int    `json:"year"`
-	Semester  int    `json:"semester"`
-	Number    int    `json:"number"`
+	Year      *int   `json:"year,omitempty"`
+	Semester  *int   `json:"semester,omitempty"`
+	Number    *int   `json:"number,omitempty"`
 }
