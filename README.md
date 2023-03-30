@@ -22,10 +22,9 @@ fields:
     "number":	    "smallint"
 }
 
-# BDD:
-GIVEN: I am a user
-WHEN: I open the main page
-THEN: The main page displays a random question, which is selected from the database, with an ID between 1 and 3 (inclusive).
+# Endpoints:
+/ -> returns index.html
+/question with param id -> returns a question by id
 
 # Layout:
 erettsegizteto/
@@ -42,6 +41,7 @@ erettsegizteto/
 │   ├── storage/
 │   │   └── storage.go
 │   ├── handlers/
+│   │   └── index.go
 │   │   └── question.go
 │   ├── routers/
 │   │   └── router.go

@@ -1,6 +1,13 @@
-{{ define "content" }}
-    <h1>Welcome to my app!</h1>
-    <p>This app provides randomly generated questions for the Hungarian secondary school graduation exam (érettségi).</p>
-    <p>Click the button below to get started:</p>
-    <a class="btn btn-primary" href="/question">Get Random Question</a>
-{{ end }}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Exam Preparation</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+    <script src="/assets/js/main.js"></script>
+  </head>
+  <body>
+    <h1>Exam Preparation</h1>
+    <button id="next-btn" onclick="getNextQuestion()">Next Question</button>
+    <div id="question-container"></div>
+  </body>
+</html>
