@@ -6,7 +6,7 @@ erettsegizteto.hu
 - backend: go
 - orm: gorm
 - db: postgresql
-- frontend: bootstrap
+- frontend: react
 
 # Database structure
 schema: db_erettsegizteto
@@ -41,6 +41,7 @@ erettsegizteto/
 │   ├── storage/
 │   │   └── storage.go
 │   ├── handlers/
+│   │   └── handler.go
 │   │   └── index.go
 │   │   └── question.go
 │   ├── routers/
@@ -51,9 +52,7 @@ erettsegizteto/
     ├── assets/
     │   ├── css/
     │   │   └── main.css
-    │   ├── img/
     │   └── js/
     │       └── main.js
     └── templates/
-        ├── base.html
         └── index.html

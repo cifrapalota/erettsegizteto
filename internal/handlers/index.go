@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
+func (qh *Handler) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("frontend/templates/index.html"))
 
 	err := tmpl.Execute(w, nil)

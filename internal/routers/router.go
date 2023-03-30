@@ -4,16 +4,18 @@ import (
 	"net/http"
 
 	"hu.erettsegizteto/internal/handlers"
-	"hu.erettsegizteto/internal/storage"
 )
 
-func NewRouter(storage *storage.Storage) http.Handler {
-	questionHandler := handlers.NewQuestionHandler(storage)
-
+func NewRouter(handler *handlers.Handler) http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", handlers.IndexHandler)
-	mux.HandleFunc("/question", questionHandler.GetQuestionByID)
+
+	//Endpoints
+	mux.HandleFunc("/", handler.IndexHandler)
+	mux.HandleFunc("/question", handler.GetQuestionByID)
+
+	//Static assets
 	mux.Handle("/assets/css/", http.StripPrefix("/assets/css/", http.FileServer(http.Dir("frontend/assets/css/"))))
 	mux.Handle("/assets/js/", http.StripPrefix("/assets/js/", http.FileServer(http.Dir("frontend/assets/js/"))))
+
 	return mux
 }
