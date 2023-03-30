@@ -6,7 +6,7 @@ import (
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("frontend/templates/base.html", "frontend/templates/index.html"))
+	tmpl := template.Must(template.ParseFiles("frontend/templates/index.html"))
 
 	err := tmpl.Execute(w, nil)
 	if err != nil {
