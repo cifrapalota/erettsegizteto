@@ -18,7 +18,7 @@ type Storage struct {
 func NewStorage(dsn string) (*Storage, error) {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "db_erettsegizteto.t_", // schema name
+			TablePrefix: "db_erettsegizteto.", // schema name
 		},
 	})
 	if err != nil {
