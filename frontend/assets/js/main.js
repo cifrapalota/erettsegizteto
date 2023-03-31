@@ -1,24 +1,44 @@
-function getNextQuestion() {
-    var questionContainer = document.getElementById("question-container");
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                var question = JSON.parse(this.responseText);
-                var questionText = document.createTextNode(question.question);
-                questionContainer.innerHTML = '';
-                questionContainer.appendChild(questionText);
-            } else if (this.status == 500) {
-                questionContainer.innerHTML = "Nincs tobb kerdes!";
-            }
+let correctAnswer = '';
+
+document.getElementById("getRandomQuestion").addEventListener("click", function() {
+    getRandomQuestion();
+});
+
+document.getElementById("submitAnswer").addEventListener("click", function() {
+    checkAnswer();
+});
+
+async function getRandomQuestion() {
+    try {
+        const response = await fetch('/question/random');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    };
-    request.onerror = function() {
-        questionContainer.innerHTML = "Nincs tobb kerdes!";
-    };
-    request.open("GET", "/question?id=" + getNextQuestion.questionIndex, true);
-    request.send();
-    getNextQuestion.questionIndex++;
+
+        const data = await response.json();
+        const questionTextbox = document.getElementById("question");
+        questionTextbox.value = data.question;
+        correctAnswer = data.answer;
+
+        // Reset the answer box
+        const answerTextbox = document.getElementById("answer");
+        answerTextbox.value = '';
+        answerTextbox.style.backgroundColor = ''; // Reset the background color
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+    }
 }
 
-getNextQuestion.questionIndex = 1;
+function checkAnswer() {
+    const answerTextbox = document.getElementById("answer");
+    const userAnswer = answerTextbox.value;
+
+    if (userAnswer === correctAnswer) {
+        answerTextbox.style.backgroundColor = 'limegreen';
+    } else {
+        answerTextbox.style.backgroundColor = 'red';
+        answerTextbox.value = `${userAnswer} -> A helyes válasz: ${correctAnswer}`;
+    }
+}
+
+getRandomQuestion(); // Call the function on page load

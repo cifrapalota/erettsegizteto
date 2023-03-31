@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Erettsegizteto</title>
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <script src="/assets/js/main.js"></script>
-  </head>
-  <body>
-    <h1>Erettsegizteto</h1>
-    <button id="next-btn" onclick="getNextQuestion()">Next Question</button>
-    <div id="question-container"></div>
-    <footer>
-      <p>&copy; Erettsegizteto</p>
-    </footer>
-  </body>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Érettségiztető</title>
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<img id="logo" src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/77324/rooftop-clipart-md.png" alt="Logo">
+<h1>Érettségiztető</h1>
+<h2>Érettségi feladatok, egy tető alatt</h2>
+<textarea id="question" placeholder="Kérdés" rows="5"></textarea>
+<input type="text" id="answer" placeholder="Válasz">
+<button id="submitAnswer">Válasz beküldése</button>
+<button id="getRandomQuestion">Véletlen kérdés</button>
+
+<script src="assets/js/main.js"></script>
+</body>
 </html>

@@ -1,16 +1,7 @@
 package handlers
 
-import (
-	"html/template"
-	"net/http"
-)
+import "github.com/gin-gonic/gin"
 
-func (qh *Handler) IndexHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("frontend/templates/index.html"))
-
-	err := tmpl.Execute(w, nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+func (qh *Handler) IndexHandler(c *gin.Context) {
+	c.File("frontend/templates/index.html")
 }

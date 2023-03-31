@@ -1,37 +1,52 @@
 package handlers
 
 import (
-	"encoding/json"
+	"math/rand"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
-func (qh *Handler) GetQuestionByID(w http.ResponseWriter, r *http.Request) {
-	idStr := r.URL.Query().Get("id")
+func (qh *Handler) GetQuestionByID(c *gin.Context) {
+	idStr := c.Param("questionID")
 	if idStr == "" {
-		http.Error(w, "Missing 'id' query parameter", http.StatusBadRequest)
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing 'questionID' path parameter"})
 		return
 	}
 
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid 'id' query parameter", http.StatusBadRequest)
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid 'id' query parameter"})
 		return
 	}
 
-	ctx := r.Context()
+	ctx := c.Request.Context()
 	question, err := qh.storage.GetQuestionByID(ctx, id)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := json.Marshal(question)
+	c.JSON(http.StatusOK, question)
+}
+
+func (qh *Handler) GetRandomQuestion(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	count, err := qh.storage.GetQuestionCount(ctx)
 	if err != nil {
-		http.Error(w, "Failed to marshal response", http.StatusInternalServerError)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(response)
+	randID := rand.Intn(int(count)) + 1
+
+	question, err := qh.storage.GetQuestionByID(ctx, randID)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, question)
 }

@@ -40,3 +40,12 @@ func (s *Storage) GetQuestionByID(ctx context.Context, id int) (*models.Question
 
 	return &question, nil
 }
+
+func (s *Storage) GetQuestionCount(ctx context.Context) (int64, error) {
+	var count int64
+	if err := s.db.WithContext(ctx).Model(&models.Question{}).Count(&count).Error; err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}

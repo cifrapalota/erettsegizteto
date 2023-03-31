@@ -3,19 +3,21 @@ package routers
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
 	"hu.erettsegizteto/internal/handlers"
 )
 
 func NewRouter(handler *handlers.Handler) http.Handler {
-	mux := http.NewServeMux()
+	router := gin.Default()
 
 	//Endpoints
-	mux.HandleFunc("/", handler.IndexHandler)
-	mux.HandleFunc("/question", handler.GetQuestionByID)
+	router.GET("/", handler.IndexHandler)
+	router.GET("/question/:questionID", handler.GetQuestionByID)
+	router.GET("/question/random", handler.GetRandomQuestion)
 
 	//Static assets
-	mux.Handle("/assets/css/", http.StripPrefix("/assets/css/", http.FileServer(http.Dir("frontend/assets/css/"))))
-	mux.Handle("/assets/js/", http.StripPrefix("/assets/js/", http.FileServer(http.Dir("frontend/assets/js/"))))
+	router.Static("/assets/css", "frontend/assets/css")
+	router.Static("/assets/js", "frontend/assets/js")
 
-	return mux
+	return router
 }

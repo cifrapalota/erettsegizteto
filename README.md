@@ -6,7 +6,7 @@ erettsegizteto.hu
 - backend: go
 - orm: gorm
 - db: postgresql
-- frontend: react
+- frontend: react-bootstrap
 
 # Database structure
 schema: db_erettsegizteto
@@ -23,8 +23,9 @@ fields:
 }
 
 # Endpoints:
-/ -> returns index.html
-/question with param id -> returns a question by id
+/
+/question/:questionID
+/question/random
 
 # Layout:
 erettsegizteto/
