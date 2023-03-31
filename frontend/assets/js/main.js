@@ -55,14 +55,14 @@ function checkAnswer() {
 
 function addMonkeyImage() {
     const imageList = [
-        "https://cdn-icons-png.flaticon.com/512/1998/1998721.png",
         "https://cdn-icons-png.flaticon.com/512/4600/4600333.png",
-        "https://cdn-icons-png.flaticon.com/512/194/194978.png",
-        "https://cdn.icon-icons.com/icons2/1465/PNG/512/440monkey_100806.png",
-        "https://cdn-icons-png.flaticon.com/512/616/616599.png",
-        "https://cdn-icons-png.flaticon.com/512/4600/4600312.png",
-        "https://cdn-icons-png.flaticon.com/512/3069/3069257.png",
-        "https://cdn-icons-png.flaticon.com/512/2938/2938242.png"
+        "https://cdn-icons-png.flaticon.com/512/4600/4600377.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600357.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600328.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600296.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600270.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600280.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600349.png"
     ];
 
     // Choose a random image from the list
