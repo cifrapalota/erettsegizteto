@@ -8,6 +8,8 @@ document.getElementById("submitAnswer").addEventListener("click", function() {
     checkAnswer();
 });
 
+document.getElementById("majomButton").addEventListener("click", addMonkeyImage);
+
 async function getRandomQuestion() {
     try {
         const response = await fetch('/question/random');
@@ -49,5 +51,42 @@ function checkAnswer() {
         answerTextbox.value = `${userAnswer} -> A helyes válasz: ${correctAnswer}`;
     }
 }
+
+
+function addMonkeyImage() {
+    const imageList = [
+        "https://cdn-icons-png.flaticon.com/512/1998/1998721.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600333.png",
+        "https://cdn-icons-png.flaticon.com/512/194/194978.png",
+        "https://cdn.icon-icons.com/icons2/1465/PNG/512/440monkey_100806.png",
+        "https://cdn-icons-png.flaticon.com/512/616/616599.png",
+        "https://cdn-icons-png.flaticon.com/512/4600/4600312.png",
+        "https://cdn-icons-png.flaticon.com/512/3069/3069257.png",
+        "https://cdn-icons-png.flaticon.com/512/2938/2938242.png"
+    ];
+
+    // Choose a random image from the list
+    const imageUrl = imageList[Math.floor(Math.random() * imageList.length)];
+
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.className = "monkey";
+    img.style.position = "absolute";
+
+    // Set random size between 50 and 100 pixels
+    const randomSize = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+    img.style.width = `${randomSize}px`;
+    img.style.height = "auto";
+
+    img.style.top = `${Math.random() * (window.innerHeight - img.height)}px`;
+    img.style.left = `${Math.random() * (window.innerWidth - img.width)}px`;
+
+    // Set random angle
+    const randomAngle = Math.random() * 360;
+    img.style.transform = `rotate(${randomAngle}deg)`;
+
+    document.body.appendChild(img);
+}
+
 
 getRandomQuestion(); // Call the function on page load
