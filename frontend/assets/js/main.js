@@ -78,8 +78,8 @@ function addMonkeyImage() {
     img.style.width = `${randomSize}px`;
     img.style.height = "auto";
 
-    img.style.top = `${Math.random() * (window.innerHeight - img.height)}px`;
-    img.style.left = `${Math.random() * (window.innerWidth - img.width)}px`;
+    img.style.top = `${Math.random() * (window.innerHeight)}px`;
+    img.style.left = `${Math.random() * (window.innerWidth)}px`;
 
     // Set random angle
     const randomAngle = Math.random() * 360;
