@@ -74,12 +74,12 @@ function addMonkeyImage() {
     img.style.position = "absolute";
 
     // Set random size between 50 and 100 pixels
-    const randomSize = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+    const randomSize = Math.floor(Math.random() * (80 - 50 + 1)) + 50;
     img.style.width = `${randomSize}px`;
     img.style.height = "auto";
 
-    img.style.top = `${Math.random() * (window.innerHeight)}px`;
-    img.style.left = `${Math.random() * (window.innerWidth)}px`;
+    img.style.top = `${Math.random() * (window.innerHeight - 80)}px`;
+    img.style.left = `${Math.random() * (window.innerWidth - 80)}px`;
 
     // Set random angle
     const randomAngle = Math.random() * 360;
