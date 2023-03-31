@@ -20,6 +20,15 @@ async function getRandomQuestion() {
         questionTextbox.value = data.question;
         correctAnswer = data.answer;
 
+        // Set question info
+        const questionInfo = document.getElementById("questionInfo");
+        if (data.generated) {
+            questionInfo.innerText = 'Ez egy korábbi érettségik alapján generált, ellenőrzött feladat.';
+        } else {
+            const semesterText = data.semester === 1 ? 'tavaszi' : 'őszi';
+            questionInfo.innerText = `Ez volt a ${data.number}. feladat a ${data.year}-s ${semesterText} érettségiben.`;
+        }
+
         // Reset the answer box
         const answerTextbox = document.getElementById("answer");
         answerTextbox.value = '';
