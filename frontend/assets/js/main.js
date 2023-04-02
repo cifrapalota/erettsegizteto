@@ -18,8 +18,13 @@ async function getRandomQuestion() {
         }
 
         const data = await response.json();
-        const questionTextbox = document.getElementById("question");
-        questionTextbox.value = data.question;
+
+        const questionDiv = document.getElementById('question');
+        const questionHTML = data.question;
+        questionDiv.innerHTML = questionHTML;
+
+        MathJax.typeset([questionDiv]);
+        
         correctAnswer = data.answer;
 
         // Set question info
