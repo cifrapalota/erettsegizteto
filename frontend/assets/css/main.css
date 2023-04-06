@@ -1,5 +1,4 @@
 body {
-  font-family: Arial, sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -51,21 +50,18 @@ button {
   cursor: pointer;
 }
 
-.question-text {
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 16px;
-  line-height: 1.5;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 30px;
-  text-align: justify;
-}
-
-.question-equation {
-  display: flex;
-  justify-content: center;
-}
-
 #question {
+  max-width: 600px;
+}
+
+#questionTest {
   border: 1px solid black; /* This will add a 1px solid black border around the div */
+  padding: 10px;
+}
+
+#questionImage {
+  max-width:400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

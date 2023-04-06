@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +29,8 @@ func (qh *Handler) GetQuestionByID(c *gin.Context) {
 		return
 	}
 
+	question.Question = strings.Replace(question.Question, "{image_link}", *question.ImageLink, 1)
+
 	c.JSON(http.StatusOK, question)
 }
 
@@ -47,6 +50,8 @@ func (qh *Handler) GetRandomQuestion(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
+	question.Question = strings.Replace(question.Question, "{image_link}", *question.ImageLink, 1)
 
 	c.JSON(http.StatusOK, question)
 }

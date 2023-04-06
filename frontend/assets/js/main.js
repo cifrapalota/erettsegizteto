@@ -23,7 +23,10 @@ async function getRandomQuestion() {
         const questionHTML = data.question;
         questionDiv.innerHTML = questionHTML;
 
-        MathJax.typeset([questionDiv]);
+        await MathJax.typesetPromise()
+
+        const img = document.getElementById('questionImage');
+        img.src = data.imageLink;
         
         correctAnswer = data.answer;
 
