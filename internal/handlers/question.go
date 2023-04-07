@@ -1,12 +1,10 @@
 package handlers
 
 import (
-	"math/rand"
 	"net/http"
-	"strconv"
-	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 func (qh *Handler) GetQuestionByID(c *gin.Context) {
@@ -16,9 +14,9 @@ func (qh *Handler) GetQuestionByID(c *gin.Context) {
 		return
 	}
 
-	id, err := strconv.Atoi(idStr)
+	id, err := uuid.Parse(idStr)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid 'id' query parameter"})
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid 'questionID' path parameter"})
 		return
 	}
 
@@ -29,29 +27,17 @@ func (qh *Handler) GetQuestionByID(c *gin.Context) {
 		return
 	}
 
-	question.Question = strings.Replace(question.Question, "{image_link}", *question.ImageLink, 1)
-
 	c.JSON(http.StatusOK, question)
 }
 
 func (qh *Handler) GetRandomQuestion(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	count, err := qh.storage.GetQuestionCount(ctx)
+	question, err := qh.storage.GetRandomQuestion(ctx)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
-	randID := rand.Intn(int(count)) + 1
-
-	question, err := qh.storage.GetQuestionByID(ctx, randID)
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	question.Question = strings.Replace(question.Question, "{image_link}", *question.ImageLink, 1)
 
 	c.JSON(http.StatusOK, question)
 }

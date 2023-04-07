@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/google/uuid"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -28,7 +29,7 @@ func NewStorage(dsn string) (*Storage, error) {
 	return &Storage{db: db}, nil
 }
 
-func (s *Storage) GetQuestionByID(ctx context.Context, id int) (*models.Question, error) {
+func (s *Storage) GetQuestionByID(ctx context.Context, id uuid.UUID) (*models.Question, error) {
 	var question models.Question
 	err := s.db.WithContext(ctx).First(&question, id).Error
 	if err != nil {
@@ -41,11 +42,13 @@ func (s *Storage) GetQuestionByID(ctx context.Context, id int) (*models.Question
 	return &question, nil
 }
 
-func (s *Storage) GetQuestionCount(ctx context.Context) (int64, error) {
-	var count int64
-	if err := s.db.WithContext(ctx).Model(&models.Question{}).Count(&count).Error; err != nil {
-		return 0, err
+func (s *Storage) GetRandomQuestion(ctx context.Context) (*models.Question, error) {
+
+	// Get the question at the random index
+	var question models.Question
+	if err := s.db.WithContext(ctx).Limit(1).Order("RANDOM()").Find(&question).Error; err != nil {
+		return nil, fmt.Errorf("couldn't fetch a random question")
 	}
 
-	return count, nil
+	return &question, nil
 }

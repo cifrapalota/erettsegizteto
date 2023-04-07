@@ -2,7 +2,10 @@ module hu.erettsegizteto
 
 go 1.20
 
-require gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
+require (
+	github.com/google/uuid v1.3.0
+	gorm.io/gorm v1.24.7-0.20230306060331-85eaf9eeda11
+)
 
 require (
 	github.com/bytedance/sonic v1.8.0 // indirect
