@@ -23,6 +23,11 @@ async function getRandomQuestion() {
         const questionHTML = data.question;
         questionDiv.innerHTML = questionHTML;
 
+        const table = createAnswerTable(data);
+        const questionAnswer = document.getElementById('questionAnswer');
+        questionAnswer.innerHTML = "";
+        questionAnswer.appendChild(table);
+
         await MathJax.typesetPromise()
 
         const img = document.getElementById('questionImage');
@@ -59,6 +64,41 @@ function checkAnswer() {
         answerTextbox.value = `${userAnswer} -> A helyes válasz: ${correctAnswer}`;
     }
 }
+
+function createAnswerTable(data) {
+    const answerHolders = data.answerHolders;
+    const table = document.createElement('table');
+    for (let i = 0; i < answerHolders.length; i++) {
+        console.log(answerHolders[i].prefix);
+
+
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td');
+      td1.className = 'answerPrefix';
+      const p1 = document.createElement('p');
+      p1.textContent = answerHolders[i].prefix;
+      td1.appendChild(p1);
+      tr.appendChild(td1);
+      const td2 = document.createElement('td');
+      td2.className = 'answerText';
+      const input = document.createElement('input');
+      input.placeholder = 'válasz';
+      input.className = 'answerInput';
+      td2.appendChild(input);
+      tr.appendChild(td2);
+      const td3 = document.createElement('td');
+      td3.className = 'answerSuffix';
+      const p2 = document.createElement('p');
+      p2.textContent = answerHolders[i].suffix;
+      td3.appendChild(p2);
+      tr.appendChild(td3);
+      const td4 = document.createElement('td');
+      td4.className = 'answerResult';
+      tr.appendChild(td4);
+      table.appendChild(tr);
+    }
+    return table;
+  }
 
 
 function addMonkeyImage() {

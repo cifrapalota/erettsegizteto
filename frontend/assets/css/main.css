@@ -65,3 +65,61 @@ button {
   margin-left: auto;
   margin-right: auto;
 }
+
+table {
+  border-collapse:collapse;
+  width: 600px;
+  table-layout: fixed;
+}
+
+table p {
+  padding-left: 10px;
+}
+
+.answerText {
+  width:20%;
+  border-top-style:solid;
+  border-top-width:1pt;
+  border-bottom-style:solid;
+  border-bottom-width:1pt;
+}
+
+.answerPrefix {
+  width:25%;
+  border-top-style:solid;
+  border-top-width:1pt;
+  border-left-style:solid;
+  border-left-width:1pt;
+  border-bottom-style:solid;
+  border-bottom-width:1pt;
+}
+
+.answerSuffix {
+  width:25%;
+  border-top-style:solid;
+  border-top-width:1pt;
+  border-bottom-style:solid;
+  border-bottom-width:1pt;
+  border-right-style:solid;
+  border-right-width:1pt;
+}
+
+.answerResult {
+  width:15%;
+  border-top-style:solid;
+  border-top-width:1pt;
+  border-left-style:solid;
+  border-left-width:1pt;
+  border-bottom-style:solid;
+  border-bottom-width:1pt;
+  border-right-style:solid;
+  border-right-width:1pt;
+  background: #C0C0C0;
+}
+
+.answerInput {
+  width:100%;
+  padding: 16px;
+  border:none;
+  box-sizing: border-box;
+}
