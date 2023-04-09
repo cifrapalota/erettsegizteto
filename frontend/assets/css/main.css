@@ -9,32 +9,20 @@ body {
 }
 
 #logo {
-  max-width: 400px;
+  width: 600px;
   height: auto;
 }
 
-h1 {
+h1, h2 {
   font-size: 36px;
   position: relative;
+  text-align: center;
+  width: 100%;
 }
 
 h2 {
   font-size: 24px;
   margin-top: 20px;
-}
-
-input[type="text"],
-textarea {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  margin: 10px 0;
-  display: block;
-  border: 1px solid #ccc;
-}
-
-textarea {
-  resize: vertical;
 }
 
 button {
@@ -51,75 +39,23 @@ button {
 }
 
 #question {
-  max-width: 600px;
+  width: 600px;
 }
 
 #questionTest {
-  border: 1px solid black; /* This will add a 1px solid black border around the div */
+  border: 1px solid black;
   padding: 10px;
+  width: 600px;
 }
 
 #questionImage {
-  max-width:400px;
+  width: 400px;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-table {
-  border-collapse:collapse;
-  width: 600px;
-  table-layout: fixed;
-}
-
-table p {
-  padding-left: 10px;
-}
-
-.answerText {
-  width:20%;
-  border-top-style:solid;
-  border-top-width:1pt;
-  border-bottom-style:solid;
-  border-bottom-width:1pt;
-}
-
-.answerPrefix {
-  width:25%;
-  border-top-style:solid;
-  border-top-width:1pt;
-  border-left-style:solid;
-  border-left-width:1pt;
-  border-bottom-style:solid;
-  border-bottom-width:1pt;
-}
-
-.answerSuffix {
-  width:25%;
-  border-top-style:solid;
-  border-top-width:1pt;
-  border-bottom-style:solid;
-  border-bottom-width:1pt;
-  border-right-style:solid;
-  border-right-width:1pt;
-}
-
-.answerResult {
-  width:15%;
-  border-top-style:solid;
-  border-top-width:1pt;
-  border-left-style:solid;
-  border-left-width:1pt;
-  border-bottom-style:solid;
-  border-bottom-width:1pt;
-  border-right-style:solid;
-  border-right-width:1pt;
-  background: #C0C0C0;
-}
-
-.answerInput {
-  width:100%;
-  padding: 16px;
-  border:none;
-  box-sizing: border-box;
+#questionInfo, #questionAnswer {
+  text-align: center;
+  width: 100%;
 }

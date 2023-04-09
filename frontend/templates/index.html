@@ -5,38 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Érettségiztető</title>
 <link rel="stylesheet" href="assets/css/main.css">
+<link rel="icon" href="assets/img/roof.ico" type="image/x-icon">
 <script>
   MathJax = {
-tex:{
- inlineMath: [['$', '$']],
- displayMath: [ ['$$', '$$']],
-},
-svg: {
-    fontCache: 'global'
-  }
- };        
+    tex:{
+      inlineMath: [['$', '$']],
+      displayMath: [ ['$$', '$$']],
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };        
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
 </head>
 <body>
-<img id="logo" src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/77324/rooftop-clipart-md.png" alt="Logo">
-<h1>Érettségiztető</h1>
-<h2>Érettségi feladatok, egy tető alatt</h2>
-<div id="questionTest">
-<div id="question">
-</div>
-<img id="questionImage">
-</div>
-</br>
-<div id="questionInfo"></div>
-<div id="questionAnswer"></div>
-<button id="submitAnswer">Válasz beküldése</button>
-<button id="getRandomQuestion">Véletlen kérdés</button>
-<button id="majomButton">Majom</button>
-<footer>
-  <p>Copyright © 2023 Érettségiztető</p>
-  <a href="https://www.flaticon.com/free-icons/monkey" title="monkey icons">Monkey icons created by smalllikeart - Flaticon</a>
-</footer>
-<script src="assets/js/main.js"></script>
+  <header>
+    <img id="logo" src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/77324/rooftop-clipart-md.png" alt="Logo">
+    <h1>Érettségiztető</h1>
+    <h2>Érettségi feladatok, egy tető alatt</h2>
+  </header>
+
+  <main>
+    <section id="questionTest">
+      <div id="question"></div>
+      <img id="questionImage">
+    </section>
+
+    <div id="questionInfo"></div>
+    <div id="questionAnswer"></div>
+
+    <div id="buttons">
+      <button id="submitAnswer">Válasz beküldése</button>
+      <button id="getRandomQuestion">Véletlen kérdés</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>Copyright © 2023 Érettségiztető</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

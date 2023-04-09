@@ -19,6 +19,7 @@ func NewRouter(handler *handlers.Handler) http.Handler {
 	//Static assets
 	router.Static("/assets/css", "frontend/assets/css")
 	router.Static("/assets/js", "frontend/assets/js")
+	router.Static("/assets/img", "frontend/assets/img")
 
 	return router
 }
