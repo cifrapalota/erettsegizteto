@@ -10,4 +10,5 @@ type AnswerHolder struct {
 	Suffix     *string   `json:"suffix,omitempty"`
 	Number     int       `json:"number"`
 	Help       *string   `json:"help,omitempty"`
+	Answers    []Answer  `json:"answers" gorm:"ForeignKey:answer_holder_id"`
 }

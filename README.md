@@ -8,25 +8,6 @@ erettsegizteto.hu
 - db: postgresql
 - frontend: react-bootstrap
 
-# Database structure
-schema: db_erettsegizteto
-table name:  questions
-fields:
-{
-    "id":	        "serial4"
-    "question":	    "text"
-    "answer":	    "text"
-    "generated":	"boolean"
-    "year":	        "smallint"
-    "semester":	    "smallint"
-    "number":	    "smallint"
-}
-
-# Endpoints:
-/
-/question/:questionID
-/question/random
-
 # Layout:
 erettsegizteto/
 ├── .gitignore
@@ -48,6 +29,8 @@ erettsegizteto/
 │   ├── routers/
 │   │   └── router.go
 │   └── models/
+│       └── answer_holder.go
+│       └── answer.go
 │       └── question.go
 └── frontend/
     ├── assets/
