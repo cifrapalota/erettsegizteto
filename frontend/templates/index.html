@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Érettségiztető</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="assets/css/main.css">
 <link rel="icon" href="assets/img/roof.ico" type="image/x-icon">
 <script>
@@ -20,28 +21,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
 </head>
 <body>
-  <header>
+  <header class="text-center">
     <img id="logo" src="https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/77324/rooftop-clipart-md.png" alt="Logo">
     <h1>Érettségiztető</h1>
     <h2>Érettségi feladatok, egy tető alatt</h2>
   </header>
 
-  <main>
-    <section id="questionTest">
+  <main class="container">
+    <section id="questionTest" class="my-3">
       <div id="question"></div>
-      <img id="questionImage">
+      <img id="questionImage" class="img-fluid mx-auto d-block">
     </section>
 
-    <div id="questionInfo"></div>
-    <div id="questionAnswer"></div>
+    <div id="questionInfo" class="text-center mb-2"></div>
+    <div id="questionAnswer" class="row"></div>
 
-    <div id="buttons">
-      <button id="submitAnswer">Válasz beküldése</button>
-      <button id="getRandomQuestion">Véletlen kérdés</button>
+    <div id="buttons" class="text-center">
+      <button id="submitAnswer" class="btn btn-success">Válasz beküldése</button>
+      <button id="getRandomQuestion" class="btn btn-primary">Véletlen kérdés</button>
     </div>
   </main>
 
-  <footer>
+  <footer class="text-center mt-3">
     <p>Copyright © 2023 Érettségiztető</p>
   </footer>
 
