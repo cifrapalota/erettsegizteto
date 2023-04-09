@@ -86,7 +86,7 @@ class App {
     
           for (let i = 0; i < data.length; i++) {
             const answerResult = document.getElementsByClassName("answerResult")[i];
-            answerResult.textContent = data[i].answers.join(", ");
+            answerResult.textContent = data[i].answers.join(" vagy ");
             answerResult.style.backgroundColor = data[i].correct ? 'limegreen' : 'red';
           }
         } catch (error) {

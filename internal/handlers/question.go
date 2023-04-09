@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -104,6 +105,8 @@ func checkAnswers(answerHolders []models.AnswerHolder, answers []Answer) ([]Chec
 
 	// Iterate through the Answers and check if they are in the AnswerHolder's Answers list
 	for _, answer := range answers {
+		answer.Answer = strings.ReplaceAll(answer.Answer, " ", "") // remove spaces from Answer field
+
 		ah, ok := answerHolderMap[answer.AnswerHolderID]
 		if !ok {
 			return nil, fmt.Errorf("answer holder with ID %s not found", answer.AnswerHolderID)
