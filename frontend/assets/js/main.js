@@ -69,7 +69,7 @@ class App {
 
     convertMarkdownToHTML(rawContent) {
       const classMap = {
-        img: 'test-image',
+        img: 'img-fluid mx-auto d-block',
         table: 'table table-bordered',
         thead: 'd-none',
         // Add the wrapper for responsive tables
