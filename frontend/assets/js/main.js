@@ -20,26 +20,34 @@ class App {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-  
+    
         const data = await response.json();
-  
+    
+        // Convert Markdown to HTML using the convertMarkdownToHTML method
+        const questionHTML = this.convertMarkdownToHTML(data.question);
+    
         const questionDiv = document.getElementById('question');
-        const questionHTML = data.question;
         questionDiv.innerHTML = questionHTML;
-  
+    
         const answerContainer = this.createAnswerContainer(data);
         const questionAnswer = document.getElementById('questionAnswer');
         questionAnswer.innerHTML = "";
         questionAnswer.appendChild(answerContainer);
-  
+    
         await MathJax.typesetPromise();
-  
+    
         const img = document.getElementById('questionImage');
-        img.src = data.imageLink;
-  
+        if (data.imageLink) {
+          img.src = data.imageLink;
+          img.style.display = 'block'; // Show the image
+        } else {
+          img.src = '';
+          img.style.display = 'none'; // Hide the image
+        }
+    
         this.questionID = data.id; // Store the question ID
         this.answerHolders = data.answerHolders; // Store the answer holders
-  
+    
         // Set question info
         const questionInfo = document.getElementById("questionInfo");
         if (data.generated) {
@@ -48,11 +56,40 @@ class App {
           const semesterText = data.semester === 1 ? 'tavaszi' : 'őszi';
           questionInfo.innerText = `Ez volt a ${data.number}. feladat a ${data.year}-s ${semesterText} érettségiben.`;
         }
-  
+    
+        // Initialize popover
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(element => {
+          new bootstrap.Popover(element);
+        });
+    
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
       }
-    }
+    }    
+
+    convertMarkdownToHTML(rawContent) {
+
+      const classMap = {
+        img: 'img-fluid mx-auto d-block',
+        table: 'table table-bordered',
+        thead: 'd-none',
+      };
+    
+      const bindings = Object.keys(classMap)
+        .map(key => ({
+          type: 'output',
+          regex: new RegExp(`<${key}(.*)>`, 'g'),
+          replace: `<${key} class="${classMap[key]}" $1>`
+        }));
+    
+      const converter = new showdown.Converter({
+        extensions: [...bindings],
+        tables: true,
+        strikethrough: true
+      });
+    
+      return converter.makeHtml(rawContent);
+    }    
   
     async checkAnswer() {
       const answerInputs = document.getElementsByClassName("answerInput");
@@ -91,52 +128,49 @@ class App {
     }
   
     createAnswerContainer(data) {
-      const answerHolders = data.answerHolders;
-      const container = document.createElement('div');
-      container.className = 'container';
-  
-      for (let i = 0; i < answerHolders.length; i++) {
-        const row = document.createElement('div');
-        row.className = 'row';
-  
-        const col1 = document.createElement('div');
-        col1.className = 'col-md-3';
-        const p1 = document.createElement('p');
-        p1.textContent = answerHolders[i].prefix;
-        col1.appendChild(p1);
-        row.appendChild(col1);
-
-        const col2 = document.createElement('div');
-        col2.className = 'col-md-3';
-        const input = document.createElement('input');
-        input.placeholder = 'válasz';
-        input.className = 'answerInput';
-        col2.appendChild(input);
-        row.appendChild(col2);
-  
-        const col3 = document.createElement('div');
-        col3.className = 'col-md-3';
-        const p2 = document.createElement('p');
-        p2.textContent = answerHolders[i].suffix;
-        col3.appendChild(p2);
-        row.appendChild(col3);
-  
-        const col4 = document.createElement('div');
-        col4.className = 'col-md-3';
-        const answerResult = document.createElement('p');
-        answerResult.className = 'answerResult';
-        col4.appendChild(answerResult);
-        row.appendChild(col4);
-  
-        container.appendChild(row);
+        const answerHolders = data.answerHolders;
+        const container = document.createElement('div');
+        container.className = 'row';
+      
+        for (let i = 0; i < answerHolders.length; i++) {
+          const col = document.createElement('div');
+          col.className = 'col-6 col-md-3';
+      
+          const prefix = document.createElement('span');
+          prefix.textContent = answerHolders[i].prefix;
+          col.appendChild(prefix);
+        
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'form-control answerInput';
+          input.placeholder = 'válasz';
+          
+          if (answerHolders[i].help && answerHolders[i].help.trim() !== '') {
+            input.setAttribute('data-bs-toggle', 'popover');
+            input.setAttribute('data-bs-placement', 'top');
+            input.setAttribute('data-bs-trigger', 'focus');
+            input.setAttribute('title', 'Segítség');
+            input.setAttribute('data-bs-content', answerHolders[i].help);
+          }
+          
+          col.appendChild(input);
+        
+          const suffix = document.createElement('span');
+          suffix.textContent = answerHolders[i].suffix;
+          col.appendChild(suffix);
+        
+          const result = document.createElement('p');
+          result.className = 'answerResult';
+          col.appendChild(result);
+      
+          container.appendChild(col);
+        }
+        return container;
       }
-      return container;
-    }
   }
   
   window.addEventListener("DOMContentLoaded", () => {
     const app = new App();
   });
   
-       
-  
+    

@@ -10,6 +10,6 @@ type Question struct {
 	Year          *int           `json:"year,omitempty"`
 	Semester      *int           `json:"semester,omitempty"`
 	Number        *int           `json:"number,omitempty"`
-	ImageLink     *string        `json:"imageLink,omitempty"`
+	ImageLink     string         `json:"imageLink,omitempty"`
 	AnswerHolders []AnswerHolder `json:"answerHolders" gorm:"ForeignKey:question_id"`
 }
