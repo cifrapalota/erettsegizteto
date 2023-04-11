@@ -71,7 +71,7 @@ class App {
 
       const classMap = {
         img: 'img-fluid mx-auto d-block',
-        table: 'table table-bordered',
+        table: 'table table-bordered table-responsive',
         thead: 'd-none',
       };
     
