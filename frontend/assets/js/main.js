@@ -68,11 +68,12 @@ class App {
     }    
 
     convertMarkdownToHTML(rawContent) {
-
       const classMap = {
-        img: 'img-fluid mx-auto d-block',
-        table: 'table table-bordered table-responsive',
+        img: 'test-image',
+        table: 'table table-bordered',
         thead: 'd-none',
+        // Add the wrapper for responsive tables
+        'table-responsive': 'table-responsive',
       };
     
       const bindings = Object.keys(classMap)
@@ -88,9 +89,12 @@ class App {
         strikethrough: true
       });
     
-      return converter.makeHtml(rawContent);
+      const htmlContent = converter.makeHtml(rawContent);
+    
+      // Wrap the table inside a div with the class 'table-responsive'
+      return htmlContent.replace(/<table([^>]*)>/, '<div class="table-responsive"><table$1>').replace(/<\/table>/, '</table></div>');
     }    
-  
+    
     async checkAnswer() {
       const answerInputs = document.getElementsByClassName("answerInput");
       const postData = [];
