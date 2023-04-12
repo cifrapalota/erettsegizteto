@@ -57,6 +57,11 @@ type CheckedAnswer struct {
 	Answers        []string `json:"answers"`
 }
 
+type Response struct {
+	CheckedAnswers []CheckedAnswer `json:"checkedAnswers"`
+	Solution       string          `json:"solution"`
+}
+
 func (h *Handler) CheckAnswers(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -91,7 +96,18 @@ func (h *Handler) CheckAnswers(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, checkedAnswers)
+	question, err := h.storage.GetQuestionByID(ctx, id)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	response := Response{
+		CheckedAnswers: checkedAnswers,
+		Solution:       question.Solution,
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 func checkAnswers(answerHolders []models.AnswerHolder, answers []Answer) ([]CheckedAnswer, error) {

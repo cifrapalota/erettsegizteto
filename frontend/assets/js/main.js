@@ -22,6 +22,9 @@ class App {
         }
     
         const data = await response.json();
+
+        const questionSolution = document.getElementById("questionSolution");
+        questionSolution.innerHTML = "";
     
         // Convert Markdown to HTML using the convertMarkdownToHTML method
         const questionHTML = this.convertMarkdownToHTML(data.question);
@@ -67,6 +70,50 @@ class App {
       }
     }    
 
+    async checkAnswer() {
+      const answerInputs = document.getElementsByClassName("answerInput");
+      const postData = [];
+  
+      for (let i = 0; i < answerInputs.length; i++) {
+        postData.push({
+          answer_holder_id: this.answerHolders[i].id,
+          answer: answerInputs[i].value,
+        });
+      }
+  
+      try {
+        const response = await fetch(`/question/${this.questionID}/check_answers`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        const data = await response.json();
+
+        const questionSolution = document.getElementById("questionSolution");
+
+        const solution = this.convertMarkdownToHTML(data.solution)
+
+        questionSolution.innerHTML = solution;
+
+        await MathJax.typesetPromise();
+  
+        for (let i = 0; i < data.checkedAnswers.length; i++) {
+          const answerResult = document.getElementsByClassName("answerResult")[i];
+          answerResult.textContent = data.checkedAnswers[i].answers.join(" vagy ");
+          answerResult.style.backgroundColor = data.checkedAnswers[i].correct ? 'limegreen' : 'red';
+        }
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+      }
+    }
+
     convertMarkdownToHTML(rawContent) {
       const classMap = {
         img: 'img-fluid mx-auto d-block',
@@ -94,42 +141,6 @@ class App {
       // Wrap the table inside a div with the class 'table-responsive'
       return htmlContent.replace(/<table([^>]*)>/, '<div class="table-responsive"><table$1>').replace(/<\/table>/, '</table></div>');
     }    
-    
-    async checkAnswer() {
-      const answerInputs = document.getElementsByClassName("answerInput");
-      const postData = [];
-  
-      for (let i = 0; i < answerInputs.length; i++) {
-        postData.push({
-          answer_holder_id: this.answerHolders[i].id,
-          answer: answerInputs[i].value,
-        });
-      }
-  
-      try {
-        const response = await fetch(`/question/${this.questionID}/check_answers`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(postData),
-        });
-  
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-  
-        const data = await response.json();
-  
-        for (let i = 0; i < data.length; i++) {
-          const answerResult = document.getElementsByClassName("answerResult")[i];
-          answerResult.textContent = data[i].answers.join(" vagy ");
-          answerResult.style.backgroundColor = data[i].correct ? 'limegreen' : 'red';
-        }
-      } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
-      }
-    }
   
     createAnswerContainer(data) {
         const answerHolders = data.answerHolders;
