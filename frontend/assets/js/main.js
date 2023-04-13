@@ -12,6 +12,10 @@ class App {
       document.getElementById("submitAnswer").addEventListener("click", () => {
         this.checkAnswer();
       });
+
+      document.getElementById("showSolution").addEventListener("click", () => {
+        this.displaySolution();
+      });      
     }
   
     async getRandomQuestion() {
@@ -22,9 +26,6 @@ class App {
         }
     
         const data = await response.json();
-
-        const questionSolution = document.getElementById("questionSolution");
-        questionSolution.innerHTML = "";
     
         // Convert Markdown to HTML using the convertMarkdownToHTML method
         const questionHTML = this.convertMarkdownToHTML(data.question);
@@ -35,6 +36,7 @@ class App {
         const answerContainer = this.createAnswerContainer(data);
         const questionAnswer = document.getElementById('questionAnswer');
         questionAnswer.innerHTML = "";
+        
         questionAnswer.appendChild(answerContainer);
     
         await MathJax.typesetPromise();
@@ -64,6 +66,15 @@ class App {
         document.querySelectorAll('[data-bs-toggle="popover"]').forEach(element => {
           new bootstrap.Popover(element);
         });
+
+      // Hide the "showSolution" button and clear the questionSolution div
+      const showSolutionButton = document.getElementById("showSolution");
+      showSolutionButton.style.display = "none";
+      const questionSolution = document.getElementById("questionSolution");
+      questionSolution.innerHTML = "";
+
+        // Add this line to hide the questionSolution div when fetching a new question
+  questionSolution.style.display = "none";
     
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
@@ -96,12 +107,6 @@ class App {
   
         const data = await response.json();
 
-        const questionSolution = document.getElementById("questionSolution");
-
-        const solution = this.convertMarkdownToHTML(data.solution)
-
-        questionSolution.innerHTML = solution;
-
         await MathJax.typesetPromise();
   
         for (let i = 0; i < data.checkedAnswers.length; i++) {
@@ -109,12 +114,39 @@ class App {
           answerResult.textContent = data.checkedAnswers[i].answers.join(" vagy ");
           answerResult.style.backgroundColor = data.checkedAnswers[i].correct ? 'limegreen' : 'red';
         }
+
+
+        // Store the solution data
+        this.solutionData = data.solution;
+
+        // Show the "showSolution" button
+        const showSolutionButton = document.getElementById("showSolution");
+        showSolutionButton.style.display = "inline-block";
+        
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
       }
     }
 
+    async displaySolution() {
+      const questionSolution = document.getElementById("questionSolution");
+    
+      // Add this line to initially hide the questionSolution div
+      questionSolution.style.display = "none";
+    
+      const solution = this.convertMarkdownToHTML(this.solutionData);
+      questionSolution.innerHTML = solution;
+    
+      await MathJax.typesetPromise();
+    
+      // Add this line to show the questionSolution div when the button is pressed
+      questionSolution.style.display = "block";
+    }  
+
     convertMarkdownToHTML(rawContent) {
+      // Add this line to handle undefined rawContent
+      if (!rawContent) return "";
+
       const classMap = {
         img: 'img-fluid mx-auto d-block',
         table: 'table table-bordered',
@@ -160,19 +192,17 @@ class App {
           input.className = 'form-control answerInput';
           input.placeholder = 'válasz';
           
-          if (answerHolders[i].help && answerHolders[i].help.trim() !== '') {
-            input.setAttribute('data-bs-toggle', 'popover');
-            input.setAttribute('data-bs-placement', 'top');
-            input.setAttribute('data-bs-trigger', 'focus');
-            input.setAttribute('title', 'Segítség');
-            input.setAttribute('data-bs-content', answerHolders[i].help);
-          }
-          
           col.appendChild(input);
         
           const suffix = document.createElement('span');
           suffix.textContent = answerHolders[i].suffix;
           col.appendChild(suffix);
+
+              // Add the help alert here, if it exists
+    if (answerHolders[i].help && answerHolders[i].help.trim() !== "") {
+      const helpAlert = this.createHelpAlert(answerHolders[i].help);
+      col.appendChild(helpAlert);
+    }
         
           const result = document.createElement('p');
           result.className = 'answerResult';
@@ -182,10 +212,24 @@ class App {
         }
         return container;
       }
+
+      createHelpAlert(helpText) {
+        const helpAlert = document.createElement("div");
+        helpAlert.className = "alert alert-info alert-dismissible fade show mt-2";
+        helpAlert.innerHTML = helpText;
+      
+        // Add the close button
+        const closeButton = document.createElement("button");
+        closeButton.type = "button";
+        closeButton.className = "btn-close";
+        closeButton.setAttribute("data-bs-dismiss", "alert");
+        closeButton.setAttribute("aria-label", "Close");
+        helpAlert.appendChild(closeButton);
+      
+        return helpAlert;
+      }
   }
   
   window.addEventListener("DOMContentLoaded", () => {
     const app = new App();
   });
-  
-    
