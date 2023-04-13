@@ -41,15 +41,6 @@ class App {
     
         await MathJax.typesetPromise();
     
-        const img = document.getElementById('questionImage');
-        if (data.imageLink) {
-          img.src = data.imageLink;
-          img.style.display = 'block'; // Show the image
-        } else {
-          img.src = '';
-          img.style.display = 'none'; // Hide the image
-        }
-    
         this.questionID = data.id; // Store the question ID
         this.answerHolders = data.answerHolders; // Store the answer holders
     
@@ -61,11 +52,6 @@ class App {
           const semesterText = data.semester === 1 ? 'tavaszi' : 'őszi';
           questionInfo.innerText = `Ez volt a ${data.number}. feladat a ${data.year}-s ${semesterText} érettségiben.`;
         }
-    
-        // Initialize popover
-        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(element => {
-          new bootstrap.Popover(element);
-        });
 
       // Hide the "showSolution" button and clear the questionSolution div
       const showSolutionButton = document.getElementById("showSolution");
@@ -122,7 +108,7 @@ class App {
         // Show the "showSolution" button
         const showSolutionButton = document.getElementById("showSolution");
         showSolutionButton.style.display = "inline-block";
-        
+
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
       }
@@ -175,59 +161,56 @@ class App {
     }    
   
     createAnswerContainer(data) {
-        const answerHolders = data.answerHolders;
-        const container = document.createElement('div');
-        container.className = 'row';
-      
-        for (let i = 0; i < answerHolders.length; i++) {
-          const col = document.createElement('div');
-          col.className = 'col-6 col-md-3';
-      
-          const prefix = document.createElement('span');
+      const answerHolders = data.answerHolders;
+      const container = document.createElement("div");
+      container.className = "row";
+    
+      for (let i = 0; i < answerHolders.length; i++) {
+        const col = document.createElement("div");
+        col.className = "col-6 col-md-3";
+    
+        const inputGroup = document.createElement("div");
+        inputGroup.className = "input-group";
+    
+        if (answerHolders[i].prefix) {
+          const prefix = document.createElement("span");
           prefix.textContent = answerHolders[i].prefix;
-          col.appendChild(prefix);
-        
-          const input = document.createElement('input');
-          input.type = 'text';
-          input.className = 'form-control answerInput';
-          input.placeholder = 'válasz';
-          
-          col.appendChild(input);
-        
-          const suffix = document.createElement('span');
-          suffix.textContent = answerHolders[i].suffix;
-          col.appendChild(suffix);
-
-              // Add the help alert here, if it exists
-    if (answerHolders[i].help && answerHolders[i].help.trim() !== "") {
-      const helpAlert = this.createHelpAlert(answerHolders[i].help);
-      col.appendChild(helpAlert);
-    }
-        
-          const result = document.createElement('p');
-          result.className = 'answerResult';
-          col.appendChild(result);
-      
-          container.appendChild(col);
+          prefix.className = "prefix";
+          inputGroup.appendChild(prefix);
         }
-        return container;
+    
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "form-control answerInput";
+        input.placeholder = "válasz";
+    
+        if (answerHolders[i].help && answerHolders[i].help.trim() !== "") {
+          input.setAttribute("data-bs-placement", "top");
+          input.setAttribute("data-bs-trigger", "focus");
+          input.setAttribute("title", "Segítség");
+          input.setAttribute("data-bs-content", answerHolders[i].help);
+        }
+    
+        inputGroup.appendChild(input);
+    
+        if (answerHolders[i].suffix) {
+          const suffix = document.createElement("span");
+          suffix.textContent = answerHolders[i].suffix;
+          suffix.className = "suffix";
+          inputGroup.appendChild(suffix);
+        }
+    
+        col.appendChild(inputGroup);
+    
+        const result = document.createElement("p");
+        result.className = "answerResult";
+        col.appendChild(result);
+    
+        container.appendChild(col);
       }
+      return container;
+    }
 
-      createHelpAlert(helpText) {
-        const helpAlert = document.createElement("div");
-        helpAlert.className = "alert alert-info alert-dismissible fade show mt-2";
-        helpAlert.innerHTML = helpText;
-      
-        // Add the close button
-        const closeButton = document.createElement("button");
-        closeButton.type = "button";
-        closeButton.className = "btn-close";
-        closeButton.setAttribute("data-bs-dismiss", "alert");
-        closeButton.setAttribute("aria-label", "Close");
-        helpAlert.appendChild(closeButton);
-      
-        return helpAlert;
-      }
   }
   
   window.addEventListener("DOMContentLoaded", () => {

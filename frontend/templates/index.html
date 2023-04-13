@@ -31,7 +31,6 @@
   <main class="container">
     <section id="questionTest" class="my-3">
       <div id="question"></div>
-      <img id="questionImage" class="img-fluid mx-auto d-block">
     </section>
 
     <div id="questionInfo" class="text-center mb-2"></div>
@@ -49,16 +48,7 @@
     <p>Copyright © 2023 Érettségiztető</p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-      var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-        return new bootstrap.Popover(popoverTriggerEl)
-      })
-    });
-  </script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
