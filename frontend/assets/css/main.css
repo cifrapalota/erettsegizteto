@@ -5,7 +5,7 @@ body {
   flex-direction: column;
 }
 
-header, main, footer {
+header, footer {
   width: 100%;
 }
 
@@ -66,4 +66,41 @@ h2 {
   margin-left: -1px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.incorrectAnswer {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  margin-left: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 0.25rem;
+}
+
+.correct-answer {
+  background-color: rgba(212, 237, 218, 0.5);
+}
+
+.incorrect-answer {
+  background-color: rgba(248, 215, 218, 0.5);
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+#questionSolution {
+  display: none;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+}
+
+/* Add this CSS rule */
+footer {
+  margin-top: auto;
 }

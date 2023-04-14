@@ -18,7 +18,7 @@ class App {
       });      
     }
   
-    async getRandomQuestion() {
+    async getRandomQuestion(enableShowSolution = false) {
       try {
         const response = await fetch('/question/random');
         if (!response.ok) {
@@ -36,10 +36,18 @@ class App {
         const answerContainer = this.createAnswerContainer(data);
         const questionAnswer = document.getElementById('questionAnswer');
         questionAnswer.innerHTML = "";
-        
+    
         questionAnswer.appendChild(answerContainer);
     
+    // Check if MathJax.typesetPromise is available, and if not, wait for it
+    const typesetMathJax = async () => {
+      if (typeof MathJax.typesetPromise === 'function') {
         await MathJax.typesetPromise();
+      } else {
+        setTimeout(typesetMathJax, 500);
+      }
+    };
+    await typesetMathJax();
     
         this.questionID = data.id; // Store the question ID
         this.answerHolders = data.answerHolders; // Store the answer holders
@@ -50,17 +58,30 @@ class App {
           questionInfo.innerText = 'Ez egy korábbi érettségik alapján generált, ellenőrzött feladat.';
         } else {
           const semesterText = data.semester === 1 ? 'tavaszi' : 'őszi';
-          questionInfo.innerText = `Ez volt a ${data.number}. feladat a ${data.year}-s ${semesterText} érettségiben.`;
+          questionInfo.innerText = `Ez a feladat a ${data.year}-es ${semesterText} érettségi ${this.ordinalSuffix(data.number)} feladata.`;
+        }
+    
+        // Hide the "showSolution" button and clear the questionSolution div
+        const showSolutionButton = document.getElementById("showSolution");
+        showSolutionButton.style.display = "none";
+        const questionSolution = document.getElementById("questionSolution");
+        questionSolution.innerHTML = "";
+    
+        // Add this line to hide the questionSolution div when fetching a new question
+        questionSolution.style.display = "none";
+    
+        // Store the solution data
+        this.solutionData = data.solution;
+    
+        // Show the "showSolution" button
+        showSolutionButton.style.display = "inline-block";
+    
+        // Disable the "showSolution" button if enableShowSolution is false
+        if (!enableShowSolution) {
+          showSolutionButton.disabled = true;
         }
 
-      // Hide the "showSolution" button and clear the questionSolution div
-      const showSolutionButton = document.getElementById("showSolution");
-      showSolutionButton.style.display = "none";
-      const questionSolution = document.getElementById("questionSolution");
-      questionSolution.innerHTML = "";
-
-        // Add this line to hide the questionSolution div when fetching a new question
-  questionSolution.style.display = "none";
+        document.getElementById("submitAnswer").disabled = false;
     
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
@@ -70,14 +91,39 @@ class App {
     async checkAnswer() {
       const answerInputs = document.getElementsByClassName("answerInput");
       const postData = [];
-  
+      let hasEmptyInputs = false;
+    
       for (let i = 0; i < answerInputs.length; i++) {
-        postData.push({
-          answer_holder_id: this.answerHolders[i].id,
-          answer: answerInputs[i].value,
-        });
+        // Check if the input is empty
+        if (answerInputs[i].value.trim() === "") {
+          hasEmptyInputs = true;
+    
+          // Create an alert-primary div for the empty input warning
+          const emptyInputAlert = document.createElement("div");
+          emptyInputAlert.className = "alert alert-primary mt-2";
+          emptyInputAlert.textContent = "Kérjük, töltse ki az összes válaszmezőt.";
+    
+          const answerResult = document.getElementsByClassName("answerResult")[i];
+          // Remove the previous alert-primary div if it exists
+          const previousAlert = answerResult.querySelector(".alert");
+          if (previousAlert) {
+            answerResult.removeChild(previousAlert);
+          }
+    
+          // Append the new alert-primary div
+          answerResult.appendChild(emptyInputAlert);
+        } else {
+          postData.push({
+            answer_holder_id: this.answerHolders[i].id,
+            answer: answerInputs[i].value,
+          });
+        }
       }
-  
+    
+      if (hasEmptyInputs) {
+        return; // Exit the checkAnswer method to avoid submitting an incomplete answer
+      }
+    
       try {
         const response = await fetch(`/question/${this.questionID}/check_answers`, {
           method: 'POST',
@@ -86,33 +132,56 @@ class App {
           },
           body: JSON.stringify(postData),
         });
-  
+    
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-  
+    
         const data = await response.json();
-
+    
         await MathJax.typesetPromise();
-  
+    
         for (let i = 0; i < data.checkedAnswers.length; i++) {
           const answerResult = document.getElementsByClassName("answerResult")[i];
-          answerResult.textContent = data.checkedAnswers[i].answers.join(" vagy ");
-          answerResult.style.backgroundColor = data.checkedAnswers[i].correct ? 'limegreen' : 'red';
+    
+          if (data.checkedAnswers[i].correct) {
+            answerResult.textContent = "";
+            answerInputs[i].style.backgroundColor = '#d4edda';
+            answerInputs[i].classList.remove('strikethrough');
+          } else {
+            answerInputs[i].style.backgroundColor = '#f8d7da';
+            answerInputs[i].classList.add('strikethrough');
+    
+            // Create an alert-warning div for the correct answers
+            const correctAnswerDiv = document.createElement("div");
+            correctAnswerDiv.className = "alert alert-warning mt-2";
+            correctAnswerDiv.textContent = "Helyes válasz: " + data.checkedAnswers[i].answers.join(" vagy ");
+    
+            // Remove the previous alert-warning div if it exists
+            const previousAlert = answerResult.querySelector(".alert");
+            if (previousAlert) {
+              answerResult.removeChild(previousAlert);
+            }
+    
+            // Append the new alert-warning div
+            answerResult.appendChild(correctAnswerDiv);
+          }
         }
 
-
+        document.getElementById("submitAnswer").disabled = true;
+    
         // Store the solution data
         this.solutionData = data.solution;
-
-        // Show the "showSolution" button
+    
+        // Enable the "showSolution" button
         const showSolutionButton = document.getElementById("showSolution");
         showSolutionButton.style.display = "inline-block";
-
+        showSolutionButton.disabled = false;
+    
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
       }
-    }
+    }            
 
     async displaySolution() {
       const questionSolution = document.getElementById("questionSolution");
@@ -127,6 +196,8 @@ class App {
     
       // Add this line to show the questionSolution div when the button is pressed
       questionSolution.style.display = "block";
+
+      document.getElementById("showSolution").disabled = true;
     }  
 
     convertMarkdownToHTML(rawContent) {
@@ -165,12 +236,14 @@ class App {
       const container = document.createElement("div");
       container.className = "row";
     
-      for (let i = 0; i < answerHolders.length; i++) {
-        const col = document.createElement("div");
-        col.className = "col-6 col-md-3";
+      // Create a single column and append it to the container
+      const col = document.createElement("div");
+      col.className = "col-12 col-md-6 offset-md-3";
+      container.appendChild(col);
     
+      for (let i = 0; i < answerHolders.length; i++) {
         const inputGroup = document.createElement("div");
-        inputGroup.className = "input-group";
+        inputGroup.className = "input-group my-2"; // Add margin for spacing between input groups
     
         if (answerHolders[i].prefix) {
           const prefix = document.createElement("span");
@@ -205,11 +278,40 @@ class App {
         const result = document.createElement("p");
         result.className = "answerResult";
         col.appendChild(result);
-    
-        container.appendChild(col);
       }
       return container;
     }
+
+    ordinalSuffix(i) {
+      const suffixes = [
+        '',
+        'első',
+        'második',
+        'harmadik',
+        'negyedik',
+        'ötödik',
+        'hatodik',
+        'hetedik',
+        'nyolcadik',
+        'kilencedik',
+        'tizedik',
+        'tizenegyedik',
+        'tizenkettedik',
+        'tizenharmadik',
+        'tizennegyedik',
+        'tizenötödik',
+        'tizenhatodik',
+        'tizenhetedik',
+        'tizennyolcadik',
+        'tizenkilencedik',
+        'huszadik'
+      ];
+    
+      if (i >= 1 && i <= 20) {
+        return `${suffixes[i]}`;
+      }
+      return `${i}.`;
+    }    
 
   }
   
