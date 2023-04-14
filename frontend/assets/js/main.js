@@ -101,7 +101,7 @@ class App {
           // Create an alert-primary div for the empty input warning
           const emptyInputAlert = document.createElement("div");
           emptyInputAlert.className = "alert alert-primary mt-2";
-          emptyInputAlert.textContent = "Kérjük, töltse ki az összes válaszmezőt.";
+          emptyInputAlert.textContent = "Töltsd ki az összes válaszmezőt!";
     
           const answerResult = document.getElementsByClassName("answerResult")[i];
           // Remove the previous alert-primary div if it exists
@@ -155,7 +155,7 @@ class App {
             // Create an alert-warning div for the correct answers
             const correctAnswerDiv = document.createElement("div");
             correctAnswerDiv.className = "alert alert-warning mt-2";
-            correctAnswerDiv.textContent = "Helyes válasz: " + data.checkedAnswers[i].answers.join(" vagy ");
+            correctAnswerDiv.textContent = "A helyes válasz lehetőségek: " + data.checkedAnswers[i].answers.join(" vagy ");
     
             // Remove the previous alert-warning div if it exists
             const previousAlert = answerResult.querySelector(".alert");
