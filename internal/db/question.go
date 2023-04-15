@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math/rand"
+	"time"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -28,9 +30,27 @@ func (db *DB) GetQuestionByID(ctx context.Context, id uuid.UUID) (*models.Questi
 // GetQuestionByID gets a random valid question
 func (db *DB) GetRandomQuestion(ctx context.Context) (*models.Question, error) {
 	var question models.Question
+	var count int64
 
-	if err := db.gormDB.WithContext(ctx).Preload("AnswerHolders").Where("valid = TRUE").Limit(1).Order("RANDOM()").Find(&question).Error; err != nil {
-		return nil, fmt.Errorf("couldn't fetch a random question")
+	// Seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
+	// Count the total number of valid questions
+	if err := db.gormDB.WithContext(ctx).Model(&models.Question{}).Where("valid = TRUE").Count(&count).Error; err != nil {
+		return nil, fmt.Errorf("couldn't count the valid questions: %v", err)
+	}
+
+	// If there are no valid questions, return an error
+	if count == 0 {
+		return nil, fmt.Errorf("no valid questions found")
+	}
+
+	// Generate a random offset within the range of the total count
+	offset := rand.Int63n(count)
+
+	// Retrieve the question at the random offset
+	if err := db.gormDB.WithContext(ctx).Preload("AnswerHolders").Where("valid = TRUE").Offset(int(offset)).Limit(1).Find(&question).Error; err != nil {
+		return nil, fmt.Errorf("couldn't fetch a random question: %v", err)
 	}
 
 	return &question, nil
