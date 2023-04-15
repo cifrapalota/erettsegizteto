@@ -32,23 +32,18 @@ func (db *DB) GetRandomQuestion(ctx context.Context) (*models.Question, error) {
 	var question models.Question
 	var count int64
 
-	// Seed the random number generator
 	rand.Seed(time.Now().UnixNano())
 
-	// Count the total number of valid questions
 	if err := db.gormDB.WithContext(ctx).Model(&models.Question{}).Where("valid = TRUE").Count(&count).Error; err != nil {
 		return nil, fmt.Errorf("couldn't count the valid questions: %v", err)
 	}
 
-	// If there are no valid questions, return an error
 	if count == 0 {
 		return nil, fmt.Errorf("no valid questions found")
 	}
 
-	// Generate a random offset within the range of the total count
 	offset := rand.Int63n(count)
 
-	// Retrieve the question at the random offset
 	if err := db.gormDB.WithContext(ctx).Preload("AnswerHolders").Where("valid = TRUE").Offset(int(offset)).Limit(1).Find(&question).Error; err != nil {
 		return nil, fmt.Errorf("couldn't fetch a random question: %v", err)
 	}

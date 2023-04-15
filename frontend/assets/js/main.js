@@ -97,19 +97,27 @@ class App {
         // Check if the input is empty
         if (answerInputs[i].value.trim() === "") {
           hasEmptyInputs = true;
-    
+      
           // Create an alert-primary div for the empty input warning
           const emptyInputAlert = document.createElement("div");
-          emptyInputAlert.className = "alert alert-primary mt-2";
+          emptyInputAlert.className = "alert alert-primary mt-2 alert-dismissible fade show"; // Add alert-dismissible and fade show classes
           emptyInputAlert.textContent = "Töltsd ki az összes válaszmezőt!";
-    
+      
+          // Create a close button for the alert
+          const closeButton = document.createElement("button");
+          closeButton.type = "button";
+          closeButton.className = "btn-close";
+          closeButton.setAttribute("data-bs-dismiss", "alert");
+          closeButton.setAttribute("aria-label", "Close");
+          emptyInputAlert.appendChild(closeButton);
+      
           const answerResult = document.getElementsByClassName("answerResult")[i];
           // Remove the previous alert-primary div if it exists
           const previousAlert = answerResult.querySelector(".alert");
           if (previousAlert) {
             answerResult.removeChild(previousAlert);
           }
-    
+      
           // Append the new alert-primary div
           answerResult.appendChild(emptyInputAlert);
         } else {
@@ -143,29 +151,33 @@ class App {
     
         for (let i = 0; i < data.checkedAnswers.length; i++) {
           const answerResult = document.getElementsByClassName("answerResult")[i];
-    
+          const input = answerInputs[i]; // Get the answer input
+        
           if (data.checkedAnswers[i].correct) {
             answerResult.textContent = "";
-            answerInputs[i].style.backgroundColor = '#d4edda';
-            answerInputs[i].classList.remove('strikethrough');
+            input.style.backgroundColor = '#d4edda';
+            input.classList.remove('strikethrough');
           } else {
-            answerInputs[i].style.backgroundColor = '#f8d7da';
-            answerInputs[i].classList.add('strikethrough');
-    
+            input.style.backgroundColor = '#f8d7da';
+            input.classList.add('strikethrough');
+        
             // Create an alert-warning div for the correct answers
             const correctAnswerDiv = document.createElement("div");
             correctAnswerDiv.className = "alert alert-warning mt-2";
             correctAnswerDiv.textContent = "A helyes válasz: " + data.checkedAnswers[i].answers.join(" vagy ");
-    
+        
             // Remove the previous alert-warning div if it exists
             const previousAlert = answerResult.querySelector(".alert");
             if (previousAlert) {
               answerResult.removeChild(previousAlert);
             }
-    
+        
             // Append the new alert-warning div
             answerResult.appendChild(correctAnswerDiv);
           }
+        
+          // Disable the answer input when the submitAnswer button is disabled
+          input.disabled = true;
         }
 
         document.getElementById("submitAnswer").disabled = true;
@@ -256,14 +268,6 @@ class App {
         input.type = "text";
         input.className = "form-control answerInput";
         input.placeholder = "válasz";
-    
-        if (answerHolders[i].help && answerHolders[i].help.trim() !== "") {
-          input.setAttribute("data-bs-placement", "top");
-          input.setAttribute("data-bs-trigger", "focus");
-          input.setAttribute("title", "Segítség");
-          input.setAttribute("data-bs-content", answerHolders[i].help);
-        }
-    
         inputGroup.appendChild(input);
     
         if (answerHolders[i].suffix) {
@@ -275,12 +279,28 @@ class App {
     
         col.appendChild(inputGroup);
     
+        if (answerHolders[i].help && answerHolders[i].help.trim() !== "") {
+          const helpDiv = document.createElement("div");
+          helpDiv.className = "alert alert-info mt-2 d-flex justify-content-between";
+          helpDiv.textContent = answerHolders[i].help;
+    
+          const closeButton = document.createElement("button");
+          closeButton.type = "button";
+          closeButton.className = "btn-close";
+          closeButton.setAttribute("data-bs-dismiss", "alert");
+          closeButton.setAttribute("aria-label", "Close");
+    
+          helpDiv.appendChild(closeButton);
+          col.appendChild(helpDiv);
+        }
+    
         const result = document.createElement("p");
         result.className = "answerResult";
         col.appendChild(result);
       }
       return container;
-    }
+    }    
+    
 
     ordinalSuffix(i) {
       const suffixes = [
