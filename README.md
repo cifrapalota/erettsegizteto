@@ -20,8 +20,10 @@ erettsegizteto/
 ├── internal/
 │   ├── api/
 │   │   ├── models/
-│   │   │   └── api_answer.go
-│   │   │   └── api_question.go
+│   │   │   └── answer_holder.go
+│   │   │   └── checked_answer_holder.go
+│   │   │   └── question.go
+│   │   │   └── user_answer.go
 │   │   └── conversion/
 │   │       └── conversion.go
 │   ├── config/
@@ -29,7 +31,7 @@ erettsegizteto/
 │   ├── db/
 │   │   └── answer_holder.go
 │   │   └── question.go
-│   │   └── storage.go
+│   │   └── db.go
 │   ├── handlers/
 │   │   └── handler.go
 │   │   └── index.go

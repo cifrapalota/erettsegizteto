@@ -63,22 +63,19 @@ func (h *Handler) CheckAnswers(c *gin.Context) {
 func checkAnswers(answerHolders []dbModels.AnswerHolder, answers []apiModels.UserAnswer) ([]apiModels.CheckedAnswerHolder, error) {
 	checkedAnswers := []apiModels.CheckedAnswerHolder{}
 
-	// Create a map of AnswerHolderID to AnswerHolder for faster lookup
 	answerHolderMap := make(map[string]dbModels.AnswerHolder)
 	for _, ah := range answerHolders {
 		answerHolderMap[ah.ID.String()] = ah
 	}
 
-	// Iterate through the Answers and check if they are in the AnswerHolder's Answers list
 	for _, answer := range answers {
-		answer.Answer = strings.ReplaceAll(answer.Answer, " ", "") // remove spaces from Answer field
+		answer.Answer = strings.ReplaceAll(answer.Answer, " ", "")
 
 		ah, ok := answerHolderMap[answer.AnswerHolderID]
 		if !ok {
 			return nil, fmt.Errorf("answer holder with ID %s not found", answer.AnswerHolderID)
 		}
 
-		// Check if the answer is in the AnswerHolder's Answers list
 		found := false
 		for _, a := range ah.Answers {
 			if a.Answer == answer.Answer {
