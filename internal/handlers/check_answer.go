@@ -79,7 +79,9 @@ func checkAnswers(answerHolders []dbModels.AnswerHolder, answers []apiModels.Use
 
 		found := false
 		for _, a := range ah.Answers {
-			if a.Answer == answer.Answer {
+			aw := strings.ReplaceAll(a.Answer, " ", "")
+
+			if aw == answer.Answer {
 				found = true
 				break
 			}
