@@ -119,7 +119,6 @@ footer {
   background-size: cover;
   border: none;
   color: white; /* Change the text color to white */
-  font-family: 'Permanent Marker', cursive; /* Use the chalk-like font */
 }
 
 .png-shaped-button:hover {
