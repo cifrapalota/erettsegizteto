@@ -12,7 +12,6 @@ func NewRouter(handler *handlers.Handler) http.Handler {
 
 	//Endpoints
 	router.GET("/", handler.IndexHandler)
-	router.GET("/question/:questionID", handler.GetQuestionByID)
 	router.GET("/question/random", handler.GetRandomQuestion)
 	router.POST("/question/:questionID/check_answers", handler.CheckAnswers)
 

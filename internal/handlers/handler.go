@@ -1,13 +1,13 @@
 package handlers
 
 import (
-	"hu.erettsegizteto/internal/storage"
+	"hu.erettsegizteto/internal/db"
 )
 
 type Handler struct {
-	storage *storage.Storage
+	db *db.DB
 }
 
-func NewHandler(storage *storage.Storage) *Handler {
-	return &Handler{storage: storage}
+func NewHandler(db *db.DB) *Handler {
+	return &Handler{db: db}
 }

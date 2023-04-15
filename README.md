@@ -18,9 +18,17 @@ erettsegizteto/
 ├── cmd/
 │   └── main.go
 ├── internal/
+│   ├── api/
+│   │   ├── models/
+│   │   │   └── api_answer.go
+│   │   │   └── api_question.go
+│   │   └── conversion/
+│   │       └── conversion.go
 │   ├── config/
 │   │   └── config.go
-│   ├── storage/
+│   ├── db/
+│   │   └── answer_holder.go
+│   │   └── question.go
 │   │   └── storage.go
 │   ├── handlers/
 │   │   └── handler.go
@@ -36,6 +44,8 @@ erettsegizteto/
     ├── assets/
     │   ├── css/
     │   │   └── main.css
+    │   ├── img/
+    │   │   └── roof.ico
     │   └── js/
     │       └── main.js
     └── templates/

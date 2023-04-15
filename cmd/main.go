@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"hu.erettsegizteto/internal/config"
+	"hu.erettsegizteto/internal/db"
 	"hu.erettsegizteto/internal/handlers"
 	"hu.erettsegizteto/internal/routers"
-	"hu.erettsegizteto/internal/storage"
 )
 
 func main() {
@@ -16,12 +16,12 @@ func main() {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
 
-	storage, err := storage.NewStorage(cfg.DatabaseDSN)
+	db, err := db.NewDB(cfg.DatabaseDSN)
 	if err != nil {
 		log.Fatalf("Failed to initialize storage: %v", err)
 	}
 
-	handler := handlers.NewHandler(storage)
+	handler := handlers.NewHandler(db)
 
 	router := routers.NewRouter(handler)
 
