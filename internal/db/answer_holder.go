@@ -8,6 +8,7 @@ import (
 	"hu.erettsegizteto/internal/db/models"
 )
 
+// GetAnswerHoldersByQuestionID gets all AnswerHolders by questionID
 func (db *DB) GetAnswerHoldersByQuestionID(ctx context.Context, questionID uuid.UUID) ([]models.AnswerHolder, error) {
 	var answerHolders []models.AnswerHolder
 

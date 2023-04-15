@@ -10,6 +10,7 @@ import (
 	"hu.erettsegizteto/internal/db/models"
 )
 
+// GetQuestionByID gets a Question by id
 func (db *DB) GetQuestionByID(ctx context.Context, id uuid.UUID) (*models.Question, error) {
 	var question models.Question
 
@@ -24,6 +25,7 @@ func (db *DB) GetQuestionByID(ctx context.Context, id uuid.UUID) (*models.Questi
 	return &question, nil
 }
 
+// GetQuestionByID gets a random valid question
 func (db *DB) GetRandomQuestion(ctx context.Context) (*models.Question, error) {
 	var question models.Question
 

@@ -10,6 +10,6 @@ type Question struct {
 	Year          *int
 	Semester      *int
 	Number        *int
-	Solution      string
+	Workings      string
 	AnswerHolders []AnswerHolder `gorm:"ForeignKey:question_id"`
 }

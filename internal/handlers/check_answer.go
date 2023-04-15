@@ -54,7 +54,7 @@ func (h *Handler) CheckAnswers(c *gin.Context) {
 
 	response := apiModels.Solution{
 		CheckedAnswers: checkedAnswers,
-		Solution:       question.Solution,
+		Solution:       question.Workings,
 	}
 
 	c.JSON(http.StatusOK, response)
