@@ -12,6 +12,7 @@ import (
 	dbModels "hu.erettsegizteto/internal/db/models"
 )
 
+// CheckAnswers checks if the answers in the request are correct
 func (h *Handler) CheckAnswers(c *gin.Context) {
 	ctx := c.Request.Context()
 
@@ -52,9 +53,9 @@ func (h *Handler) CheckAnswers(c *gin.Context) {
 		return
 	}
 
-	response := apiModels.Solution{
+	response := apiModels.Workings{
 		CheckedAnswers: checkedAnswers,
-		Solution:       question.Workings,
+		Workings:       question.Workings,
 	}
 
 	c.JSON(http.StatusOK, response)

@@ -1,6 +1,6 @@
 package models
 
-type Solution struct {
+type Workings struct {
 	CheckedAnswers []CheckedAnswerHolder `json:"checkedAnswers"`
-	Solution       string                `json:"solution"`
+	Workings       string                `json:"workings"`
 }

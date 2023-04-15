@@ -1,6 +1,6 @@
 package models
 
 type UserAnswer struct {
-	AnswerHolderID string `json:"answer_holder_id"`
+	AnswerHolderID string `json:"answerHolderId"`
 	Answer         string `json:"answer"`
 }

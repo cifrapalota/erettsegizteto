@@ -7,15 +7,16 @@ import (
 	"hu.erettsegizteto/internal/handlers"
 )
 
+// NewRouter creates a new http handler
 func NewRouter(handler *handlers.Handler) http.Handler {
 	router := gin.Default()
 
-	//Endpoints
-	router.GET("/", handler.IndexHandler)
+	// Endpoints
 	router.GET("/question/random", handler.GetRandomQuestion)
-	router.POST("/question/:questionID/check_answers", handler.CheckAnswers)
+	router.POST("/question/:questionID/check-answers", handler.CheckAnswers)
 
-	//Static assets
+	// Static assets
+	router.StaticFile("/", "frontend/templates/index.html")
 	router.Static("/assets/css", "frontend/assets/css")
 	router.Static("/assets/js", "frontend/assets/js")
 	router.Static("/assets/img", "frontend/assets/img")

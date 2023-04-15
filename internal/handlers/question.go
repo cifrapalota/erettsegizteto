@@ -8,6 +8,7 @@ import (
 	"hu.erettsegizteto/internal/api/conversion"
 )
 
+// GetQuestionByID returns a question by id in json
 func (h *Handler) GetQuestionByID(c *gin.Context) {
 	idStr := c.Param("questionID")
 	if idStr == "" {
@@ -31,6 +32,7 @@ func (h *Handler) GetQuestionByID(c *gin.Context) {
 	c.JSON(http.StatusOK, conversion.DBQuestionToAPIQuestion(question))
 }
 
+// GetRandomQuestion returns a random question in json
 func (h *Handler) GetRandomQuestion(c *gin.Context) {
 	ctx := c.Request.Context()
 

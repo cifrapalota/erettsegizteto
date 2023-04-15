@@ -4,11 +4,13 @@ import (
 	"os"
 )
 
+// Config represents a service configuration
 type Config struct {
 	DatabaseDSN string
 	Port        string
 }
 
+// LoadConfig loads the configuration of the service
 func LoadConfig() (*Config, error) {
 	databaseDSN := os.Getenv("DATABASE_URL")
 	if databaseDSN == "" {

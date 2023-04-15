@@ -18,7 +18,7 @@ func main() {
 
 	db, err := db.NewDB(cfg.DatabaseDSN)
 	if err != nil {
-		log.Fatalf("Failed to initialize storage: %v", err)
+		log.Fatalf("Failed to initialize db: %v", err)
 	}
 
 	handler := handlers.NewHandler(db)

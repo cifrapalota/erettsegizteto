@@ -13,12 +13,12 @@ class App {
         this.checkAnswer();
       });
 
-      document.getElementById("showSolution").addEventListener("click", () => {
-        this.displaySolution();
+      document.getElementById("showWorkings").addEventListener("click", () => {
+        this.displayWorkings();
       });      
     }
   
-    async getRandomQuestion(enableShowSolution = false) {
+    async getRandomQuestion(enableShowWorkings = false) {
       try {
         const response = await fetch('/question/random');
         if (!response.ok) {
@@ -61,24 +61,24 @@ class App {
           questionInfo.innerText = `Ez a feladat a ${data.year}-es ${semesterText} érettségi ${this.ordinalSuffix(data.number)} feladata.`;
         }
     
-        // Hide the "showSolution" button and clear the questionSolution div
-        const showSolutionButton = document.getElementById("showSolution");
-        showSolutionButton.style.display = "none";
-        const questionSolution = document.getElementById("questionSolution");
-        questionSolution.innerHTML = "";
+        // Hide the "showWorkings" button and clear the questionWorkings div
+        const showWorkingsButton = document.getElementById("showWorkings");
+        showWorkingsButton.style.display = "none";
+        const questionWorkings = document.getElementById("questionWorkings");
+        questionWorkings.innerHTML = "";
     
-        // Add this line to hide the questionSolution div when fetching a new question
-        questionSolution.style.display = "none";
+        // Add this line to hide the questionWorkings div when fetching a new question
+        questionWorkings.style.display = "none";
     
-        // Store the solution data
-        this.solutionData = data.solution;
+        // Store the workings data
+        this.workingsData = data.workings;
     
-        // Show the "showSolution" button
-        showSolutionButton.style.display = "inline-block";
+        // Show the "showWorkings" button
+        showWorkingsButton.style.display = "inline-block";
     
-        // Disable the "showSolution" button if enableShowSolution is false
-        if (!enableShowSolution) {
-          showSolutionButton.disabled = true;
+        // Disable the "showWorkings" button if enableShowWorkings is false
+        if (!enableShowWorkings) {
+          showWorkingsButton.disabled = true;
         }
 
         document.getElementById("submitAnswer").disabled = false;
@@ -114,7 +114,7 @@ class App {
           answerResult.appendChild(emptyInputAlert);
         } else {
           postData.push({
-            answer_holder_id: this.answerHolders[i].id,
+            answerHolderId: this.answerHolders[i].id,
             answer: answerInputs[i].value,
           });
         }
@@ -125,7 +125,7 @@ class App {
       }
     
       try {
-        const response = await fetch(`/question/${this.questionID}/check_answers`, {
+        const response = await fetch(`/question/${this.questionID}/check-answers`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -170,34 +170,34 @@ class App {
 
         document.getElementById("submitAnswer").disabled = true;
     
-        // Store the solution data
-        this.solutionData = data.solution;
+        // Store the workings data
+        this.workingsData = data.workings;
     
-        // Enable the "showSolution" button
-        const showSolutionButton = document.getElementById("showSolution");
-        showSolutionButton.style.display = "inline-block";
-        showSolutionButton.disabled = false;
+        // Enable the "showWorkings" button
+        const showWorkingsButton = document.getElementById("showWorkings");
+        showWorkingsButton.style.display = "inline-block";
+        showWorkingsButton.disabled = false;
     
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
       }
     }            
 
-    async displaySolution() {
-      const questionSolution = document.getElementById("questionSolution");
+    async displayWorkings() {
+      const questionWorkings = document.getElementById("questionWorkings");
     
-      // Add this line to initially hide the questionSolution div
-      questionSolution.style.display = "none";
+      // Add this line to initially hide the questionWorkings div
+      questionWorkings.style.display = "none";
     
-      const solution = this.convertMarkdownToHTML(this.solutionData);
-      questionSolution.innerHTML = solution;
+      const workings = this.convertMarkdownToHTML(this.workingsData);
+      questionWorkings.innerHTML = workings;
     
       await MathJax.typesetPromise();
     
-      // Add this line to show the questionSolution div when the button is pressed
-      questionSolution.style.display = "block";
+      // Add this line to show the questionWorkings div when the button is pressed
+      questionWorkings.style.display = "block";
 
-      document.getElementById("showSolution").disabled = true;
+      document.getElementById("showWorkings").disabled = true;
     }  
 
     convertMarkdownToHTML(rawContent) {
