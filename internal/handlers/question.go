@@ -12,12 +12,14 @@ import (
 func (h *Handler) GetQuestionByID(c *gin.Context) {
 	idStr := c.Param("questionID")
 	if idStr == "" {
+		h.Logger.Error("Missing 'questionID' path parameter")
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing 'questionID' path parameter"})
 		return
 	}
 
 	id, err := uuid.Parse(idStr)
 	if err != nil {
+		h.Logger.Errorf("Invalid 'questionID' path parameter: %v", err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid 'questionID' path parameter"})
 		return
 	}
@@ -25,6 +27,7 @@ func (h *Handler) GetQuestionByID(c *gin.Context) {
 	ctx := c.Request.Context()
 	question, err := h.db.GetQuestionByID(ctx, id)
 	if err != nil {
+		h.Logger.Errorf("Error fetching question by ID: %v", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -38,6 +41,7 @@ func (h *Handler) GetRandomQuestion(c *gin.Context) {
 
 	question, err := h.db.GetRandomQuestion(ctx)
 	if err != nil {
+		h.Logger.Errorf("Error fetching random question: %v", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

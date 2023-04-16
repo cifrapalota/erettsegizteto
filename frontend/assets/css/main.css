@@ -137,7 +137,7 @@ footer {
   background-image: url('../../assets/img/blackboard1mt.png');
   background-color: transparent;
   color: black; /* Change the text color to black */
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .q-image {

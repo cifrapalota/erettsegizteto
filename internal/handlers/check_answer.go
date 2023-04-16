@@ -18,12 +18,14 @@ func (h *Handler) CheckAnswers(c *gin.Context) {
 
 	idStr := c.Param("questionID")
 	if idStr == "" {
+		h.Logger.Error("Missing 'questionID' path parameter")
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Missing 'questionID' path parameter"})
 		return
 	}
 
 	id, err := uuid.Parse(idStr)
 	if err != nil {
+		h.Logger.Errorf("Invalid 'questionID' path parameter: %v", err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid 'questionID' path parameter"})
 		return
 	}
@@ -31,24 +33,28 @@ func (h *Handler) CheckAnswers(c *gin.Context) {
 	var answers []apiModels.UserAnswer
 	err = json.NewDecoder(c.Request.Body).Decode(&answers)
 	if err != nil {
+		h.Logger.Errorf("Error fetching answer holders by question ID: %v", err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
 	}
 
 	answerHolders, err := h.db.GetAnswerHoldersByQuestionID(ctx, id)
 	if err != nil {
+		h.Logger.Errorf("Error fetching answer holders by question ID: %v", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	checkedAnswers, err := checkAnswers(answerHolders, answers)
 	if err != nil {
+		h.Logger.Errorf("Error checking answers: %v", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	question, err := h.db.GetQuestionByID(ctx, id)
 	if err != nil {
+		h.Logger.Errorf("Error fetching question by ID: %v", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

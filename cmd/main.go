@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/sirupsen/logrus"
 	"hu.erettsegizteto/internal/config"
 	"hu.erettsegizteto/internal/db"
 	"hu.erettsegizteto/internal/handlers"
@@ -21,7 +22,7 @@ func main() {
 		log.Fatalf("Failed to initialize db: %v", err)
 	}
 
-	handler := handlers.NewHandler(db)
+	handler := handlers.NewHandler(db, logrus.New())
 
 	router := routers.NewRouter(handler)
 

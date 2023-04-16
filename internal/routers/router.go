@@ -11,6 +11,9 @@ import (
 func NewRouter(handler *handlers.Handler) http.Handler {
 	router := gin.Default()
 
+	// Add the logging middleware
+	router.Use(handlers.LoggingMiddleware(handler.Logger))
+
 	// Endpoints
 	router.GET("/question/random", handler.GetRandomQuestion)
 	router.POST("/question/:questionID/check-answers", handler.CheckAnswers)
