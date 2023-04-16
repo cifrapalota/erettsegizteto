@@ -58,7 +58,7 @@ class App {
           questionInfo.innerText = 'Ez egy korábbi érettségik alapján generált, ellenőrzött feladat.';
         } else {
           const semesterText = data.semester === 1 ? 'tavaszi' : 'őszi';
-          questionInfo.innerText = `Ez a feladat a ${data.year}-es ${semesterText} érettségi ${this.ordinalSuffix(data.number)} feladata.`;
+          questionInfo.innerText = `Ez a ${data.year}-es ${semesterText} érettségi ${this.ordinalSuffix(data.number)} feladata.`;
         }
     
         // Hide the "showWorkings" button and clear the questionWorkings div
