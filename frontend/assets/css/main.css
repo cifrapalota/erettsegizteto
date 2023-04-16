@@ -38,6 +38,10 @@ h2 {
   padding: 10px;
 }
 
+#questionInfo {
+  font-family: "Oswald", sans-serif;
+}
+
 .answerInput {
   width: 100%;
 }
