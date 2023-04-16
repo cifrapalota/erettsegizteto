@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/newrelic/go-agent/v3/newrelic"
 	"github.com/sirupsen/logrus"
 )
 
@@ -28,5 +29,26 @@ func LoggingMiddleware(logger *logrus.Logger) gin.HandlerFunc {
 			"method":      method,
 			"path":        path,
 		}).Info(fmt.Sprintf("%s %s", method, path))
+	}
+}
+
+func NewRelicMiddleware(app *newrelic.Application) gin.HandlerFunc {
+	if app == nil {
+		return func(c *gin.Context) {
+			c.Next()
+		}
+	}
+
+	return func(c *gin.Context) {
+		txn := app.StartTransaction(c.Request.URL.Path)
+		defer txn.End()
+
+		txn.SetWebRequestHTTP(c.Request)
+		c.Request = newrelic.RequestWithTransactionContext(c.Request, txn)
+
+		c.Next()
+
+		txn.SetWebResponse(c.Writer)
+		txn.SetName(c.HandlerName())
 	}
 }

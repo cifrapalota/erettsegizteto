@@ -6,14 +6,16 @@ import (
 
 // Config represents a service configuration
 type Config struct {
-	DatabaseDSN string
-	Port        string
+	AppName            string
+	DatabaseURL        string
+	Port               string
+	NewRelicLicenseKey string
 }
 
 // LoadConfig loads the configuration of the service
 func LoadConfig() (*Config, error) {
-	databaseDSN := os.Getenv("DATABASE_URL")
-	if databaseDSN == "" {
+	DatabaseURL := os.Getenv("DATABASE_URL")
+	if DatabaseURL == "" {
 		return nil, os.ErrInvalid
 	}
 
@@ -22,8 +24,12 @@ func LoadConfig() (*Config, error) {
 		return nil, os.ErrInvalid
 	}
 
+	newRelicLicenseKey := os.Getenv("NEW_RELIC_LICENSE_KEY")
+
 	return &Config{
-		DatabaseDSN: databaseDSN,
-		Port:        port,
+		AppName:            "erettsegizteto",
+		DatabaseURL:        DatabaseURL,
+		Port:               port,
+		NewRelicLicenseKey: newRelicLicenseKey,
 	}, nil
 }
