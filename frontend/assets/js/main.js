@@ -217,7 +217,7 @@ class App {
       if (!rawContent) return "";
 
       const classMap = {
-        img: 'img-fluid mx-auto d-block',
+        img: 'img-fluid mx-auto d-block q-image',
         table: 'table table-bordered',
         thead: 'd-none',
         // Add the wrapper for responsive tables
