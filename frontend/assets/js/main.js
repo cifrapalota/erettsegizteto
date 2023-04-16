@@ -246,11 +246,11 @@ class App {
     createAnswerContainer(data) {
       const answerHolders = data.answerHolders;
       const container = document.createElement("div");
-      container.className = "row";
+      container.className = "row"; // Add the 'justify-content-center' class here
     
       // Create a single column and append it to the container
       const col = document.createElement("div");
-      col.className = "col-12 col-md-6 offset-md-3";
+      // col.className = "col-12 col-md-8 offset-md-2";
       container.appendChild(col);
     
       for (let i = 0; i < answerHolders.length; i++) {
@@ -299,7 +299,7 @@ class App {
         col.appendChild(result);
       }
       return container;
-    }    
+    }      
     
 
     ordinalSuffix(i) {

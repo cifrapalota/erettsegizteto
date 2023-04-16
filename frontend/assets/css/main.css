@@ -7,11 +7,13 @@ body {
 
 header, footer {
   width: 100%;
+  font-family: "noto-sans-gurmukhi", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 #logo {
-  width: 40%;
-  height: auto;
+  padding-top: 10px;
 }
 
 h1, h2 {
@@ -119,6 +121,12 @@ footer {
   background-size: cover;
   border: none;
   color: white; /* Change the text color to white */
+
+  font-family: amatic-sc, sans-serif;
+  font-style: normal;
+            font-weight: 600;
+            font-size: 140%;
+
 }
 
 .png-shaped-button:hover {
