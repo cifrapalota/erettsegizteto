@@ -3,6 +3,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  font-family: "Open Sans", sans-serif;
 }
 
 header, footer {
@@ -125,7 +126,7 @@ footer {
   border: none;
   color: white; /* Change the text color to white */
 
-  font-family: amatic-sc, sans-serif;
+  font-family: "Amatic SC", sans-serif;
   font-style: normal;
             font-weight: 600;
             font-size: 140%;
