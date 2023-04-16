@@ -113,24 +113,21 @@ footer {
 
 .png-shaped-button {
   background-color: transparent;
-  background-image: url("../../assets/img/blackboard1.png");
+  background-image: url("../../assets/img/bricks.png");
   background-repeat: no-repeat;
   background-position: center;
   text-align: center;
-  color: #fff;
-  width: 110px;
+  color: black;
+  width: 120px;
   height: 110px;
   cursor: pointer;
   transition: 0.5s;
   background-size: cover;
   border: none;
-  color: white; /* Change the text color to white */
-
-  font-family: "Amatic SC", sans-serif;
+  font-family: "Oswald", sans-serif;
   font-style: normal;
             font-weight: 600;
-            font-size: 140%;
-
+            font-size: 100%;
 }
 
 .png-shaped-button:hover {
@@ -140,7 +137,7 @@ footer {
 }
 
 .png-shaped-button:disabled {
-  background-image: url('../../assets/img/blackboard1mt.png');
+  background-image: url('../../assets/img/bricks1.png');
   background-color: transparent;
   color: black; /* Change the text color to black */
   opacity: 0.5;
@@ -149,4 +146,17 @@ footer {
 .q-image {
   width: 60%;
   padding-top: 10px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: transparent;
+  border-color: transparent;
 }
