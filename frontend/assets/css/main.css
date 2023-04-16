@@ -118,8 +118,8 @@ footer {
   background-position: center;
   text-align: center;
   color: black;
-  width: 120px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
   transition: 0.5s;
   background-size: cover;
