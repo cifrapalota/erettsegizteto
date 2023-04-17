@@ -145,7 +145,7 @@ class App {
             // Create an alert-warning div for the correct answers
             const correctAnswerDiv = document.createElement("div");
             correctAnswerDiv.className = "alert incorrect-alert mt-2";
-            correctAnswerDiv.textContent = "A helyes válasz: " + data.checkedAnswers[i].answers.join(" vagy ");
+            correctAnswerDiv.innerHTML = "<strong>A helyes válasz:</strong> " + data.checkedAnswers[i].answers.join(" vagy ");
         
             // Remove the previous alert-warning div if it exists
             const previousAlert = answerResult.querySelector(".alert");
