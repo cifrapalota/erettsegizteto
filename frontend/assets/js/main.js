@@ -12,6 +12,10 @@ class App {
       document.getElementById("submitAnswer").addEventListener("click", () => {
         this.checkAnswer();
       });
+
+      document.getElementById("answer-holder-row").addEventListener("submit", () => {
+        this.checkAnswer();
+      });
   
     }
   
@@ -32,11 +36,7 @@ class App {
         const questionDiv = document.getElementById('question');
         questionDiv.innerHTML = questionHTML;
     
-        const answerContainer = this.createAnswerContainer(data);
-        const questionAnswer = document.getElementById('questionAnswer');
-        questionAnswer.innerHTML = "";
-    
-        questionAnswer.appendChild(answerContainer);
+        this.createAnswerContainer(data);
     
     // Check if MathJax.typesetPromise is available, and if not, wait for it
     const typesetMathJax = async () => {
@@ -57,7 +57,7 @@ class App {
           questionInfo.innerText = 'Ez egy korábbi érettségik alapján generált, ellenőrzött feladat.';
         } else {
           const semesterText = data.semester === 1 ? 'tavaszi' : 'őszi';
-          questionInfo.innerText = `Ez a ${data.year}-es ${semesterText} érettségi ${this.ordinalSuffix(data.number)} feladata.`;
+          questionInfo.innerText = `Ez a ${data.year}. ${semesterText} érettségi ${this.ordinalSuffix(data.number)} feladata.`;
         }
 
         document.getElementById("submitAnswer").disabled = false;
@@ -222,13 +222,9 @@ class App {
   
     createAnswerContainer(data) {
       const answerHolders = data.answerHolders;
-      const container = document.createElement("div");
-      container.className = "row"; // Add the 'justify-content-center' class here
     
-      // Create a single column and append it to the container
-      const col = document.createElement("div");
-      // col.className = "col-12 col-md-8 offset-md-2";
-      container.appendChild(col);
+      const col = document.getElementById("answer-holder-div");
+      col.innerHTML=""
     
       for (let i = 0; i < answerHolders.length; i++) {
         const inputGroup = document.createElement("div");
@@ -278,7 +274,7 @@ class App {
         }
   
       }
-      return container;
+      // return container;
     }      
     
 
