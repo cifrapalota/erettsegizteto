@@ -79,7 +79,7 @@ class App {
       
           // Create an alert-primary div for the empty input warning
           const emptyInputAlert = document.createElement("div");
-          emptyInputAlert.className = "alert alert-primary mt-2 alert-dismissible fade show"; // Add alert-dismissible and fade show classes
+          emptyInputAlert.className = "alert alert-secondary mt-2 alert-dismissible fade show"; // Add alert-dismissible and fade show classes
           emptyInputAlert.textContent = "Töltsd ki az összes válaszmezőt!";
       
           // Create a close button for the alert
@@ -144,7 +144,7 @@ class App {
         
             // Create an alert-warning div for the correct answers
             const correctAnswerDiv = document.createElement("div");
-            correctAnswerDiv.className = "alert alert-warning mt-2";
+            correctAnswerDiv.className = "alert incorrect-alert mt-2";
             correctAnswerDiv.textContent = "A helyes válasz: " + data.checkedAnswers[i].answers.join(" vagy ");
         
             // Remove the previous alert-warning div if it exists
@@ -184,7 +184,7 @@ class App {
     
     hideQuestionWorkings() {
       const questionWorkingsElement = document.getElementById('questionWorkings');
-      questionWorkingsElement.innerHTML = "A levezetés megtekintéséhez először küldj be egy megoldást, majd nyomj újra a 'Levezetés!' gombra.";
+      questionWorkingsElement.innerHTML = "A levezetés megtekintéséhez először küldj be egy megoldást, majd nyomj újra a \"Levezetés!\" gombra.";
       const collapseQuestionWorkingsElement = document.getElementById('collapseQuestionWorkings');
       collapseQuestionWorkingsElement.classList.remove('show');
     }
@@ -258,8 +258,10 @@ class App {
     
         if (answerHolders[i].help && answerHolders[i].help.trim() !== "") {
           const helpDiv = document.createElement("div");
-          helpDiv.className = "alert alert-info mt-2 d-flex justify-content-between";
-          helpDiv.textContent = answerHolders[i].help;
+          helpDiv.className = "alert alert-secondary mt-2 d-flex justify-content-between";
+
+          // Set the text content of helpDiv with the bold text at the beginning
+          helpDiv.innerHTML = 'Figyelj oda! ' + answerHolders[i].help;          
     
           const closeButton = document.createElement("button");
           closeButton.type = "button";
