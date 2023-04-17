@@ -255,6 +255,10 @@ class App {
         }
     
         col.appendChild(inputGroup);
+
+        const result = document.createElement("p");
+        result.className = "answerResult";
+        col.appendChild(result);
     
         if (answerHolders[i].help && answerHolders[i].help.trim() !== "") {
           const helpDiv = document.createElement("div");
@@ -272,10 +276,7 @@ class App {
           helpDiv.appendChild(closeButton);
           col.appendChild(helpDiv);
         }
-    
-        const result = document.createElement("p");
-        result.className = "answerResult";
-        col.appendChild(result);
+  
       }
       return container;
     }      
