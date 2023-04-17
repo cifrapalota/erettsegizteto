@@ -12,13 +12,12 @@ class App {
       document.getElementById("submitAnswer").addEventListener("click", () => {
         this.checkAnswer();
       });
-
-      document.getElementById("showWorkings").addEventListener("click", () => {
-        this.displayWorkings();
-      });      
+  
     }
   
-    async getRandomQuestion(enableShowWorkings = false) {
+    async getRandomQuestion() {
+      this.hideQuestionWorkings();
+
       try {
         const response = await fetch('/question/random');
         if (!response.ok) {
@@ -59,26 +58,6 @@ class App {
         } else {
           const semesterText = data.semester === 1 ? 'tavaszi' : 'őszi';
           questionInfo.innerText = `Ez a ${data.year}-es ${semesterText} érettségi ${this.ordinalSuffix(data.number)} feladata.`;
-        }
-    
-        // Hide the "showWorkings" button and clear the questionWorkings div
-        const showWorkingsButton = document.getElementById("showWorkings");
-        showWorkingsButton.style.display = "none";
-        const questionWorkings = document.getElementById("questionWorkings");
-        questionWorkings.innerHTML = "";
-    
-        // Add this line to hide the questionWorkings div when fetching a new question
-        questionWorkings.style.display = "none";
-    
-        // Store the workings data
-        this.workingsData = data.workings;
-    
-        // Show the "showWorkings" button
-        showWorkingsButton.style.display = "inline-block";
-    
-        // Disable the "showWorkings" button if enableShowWorkings is false
-        if (!enableShowWorkings) {
-          showWorkingsButton.disabled = true;
         }
 
         document.getElementById("submitAnswer").disabled = false;
@@ -131,6 +110,8 @@ class App {
       if (hasEmptyInputs) {
         return; // Exit the checkAnswer method to avoid submitting an incomplete answer
       }
+
+      this.hideQuestionWorkings();
     
       try {
         const response = await fetch(`/question/${this.questionID}/check-answers`, {
@@ -183,7 +164,13 @@ class App {
         document.getElementById("submitAnswer").disabled = true;
     
         // Store the workings data
-        this.workingsData = data.workings;
+        // this.workingsData = data.workings;
+
+        const questionWorkings = document.getElementById("questionWorkings");
+        const workings = this.convertMarkdownToHTML(data.workings);
+        questionWorkings.innerHTML = workings;
+      
+        await MathJax.typesetPromise();
     
         // Enable the "showWorkings" button
         const showWorkingsButton = document.getElementById("showWorkings");
@@ -193,24 +180,14 @@ class App {
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
       }
-    }            
-
-    async displayWorkings() {
-      const questionWorkings = document.getElementById("questionWorkings");
+    }       
     
-      // Add this line to initially hide the questionWorkings div
-      questionWorkings.style.display = "none";
-    
-      const workings = this.convertMarkdownToHTML(this.workingsData);
-      questionWorkings.innerHTML = workings;
-    
-      await MathJax.typesetPromise();
-    
-      // Add this line to show the questionWorkings div when the button is pressed
-      questionWorkings.style.display = "block";
-
-      document.getElementById("showWorkings").disabled = true;
-    }  
+    hideQuestionWorkings() {
+      const questionWorkingsElement = document.getElementById('questionWorkings');
+      questionWorkingsElement.innerHTML = "A levezetés megtekintéséhez először küldj be egy megoldást, majd nyomj újra a 'Levezetés!' gombra.";
+      const collapseQuestionWorkingsElement = document.getElementById('collapseQuestionWorkings');
+      collapseQuestionWorkingsElement.classList.remove('show');
+    }
 
     convertMarkdownToHTML(rawContent) {
       // Add this line to handle undefined rawContent

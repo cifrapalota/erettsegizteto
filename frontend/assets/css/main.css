@@ -1,3 +1,7 @@
+html {
+  font-size: 120%;
+}
+
 body {
   height: 100vh;
   margin: 0;
@@ -16,7 +20,7 @@ header {
 }
 
 footer {
-  font-size: 12px;
+  font-size: 80%;
 }
 
 #logo {
@@ -24,12 +28,8 @@ footer {
   padding-bottom: 20px;
 }
 
-h1, h2 {
-  font-size: 36px;
-}
-
 h2 {
-  font-size: 24px;
+  font-size: 120%;
   margin-top: 20px;
 }
 
@@ -45,6 +45,7 @@ h2 {
 }
 
 #questionInfo {
+  font-size: 90%;
   font-family: "Oswald", sans-serif;
   padding-top: 10px;
 }
@@ -101,10 +102,6 @@ h2 {
 
 .strikethrough {
   text-decoration: line-through;
-}
-
-#questionWorkings {
-  display: none;
 }
 
 main {
