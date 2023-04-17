@@ -148,3 +148,7 @@ footer {
   background-color: transparent;
   border-color: transparent;
 }
+
+ol {
+  padding-left: 1em;
+}
