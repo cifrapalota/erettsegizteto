@@ -20,16 +20,12 @@ footer {
 }
 
 #logo {
-  padding: 10px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  width: 100%;
 }
 
 h1 {
   font-size: 250%;
-}
-
-h2 {
-  margin-top: 10px;
 }
 
 #question {
@@ -100,11 +96,11 @@ footer {
 
 .png-shaped-button {
   background-color: transparent;
-  background-image: url("../img/brick.png");
+  background-image: url("../img/blackboard.svg");
   background-repeat: no-repeat;
   background-position: center;
   text-align: center;
-  color: black;
+  color: white;
   width: 100px;
   height: 100px;
   cursor: pointer;
@@ -113,8 +109,9 @@ footer {
   border: none;
   font-family: "Oswald", sans-serif;
   font-style: normal;
-  font-weight: 600;
-  font-size: 100%;
+  font-weight: 500;
+  font-size: 120%;
+  padding-bottom: 15px;
 }
 
 .png-shaped-button:hover {
@@ -124,7 +121,7 @@ footer {
 }
 
 .png-shaped-button:disabled {
-  background-image: url('../img/brick-hollow.png');
+  background-image: url('../img/blackboard_hollow.svg');
   background-color: transparent;
   color: black;
   opacity: 0.5;
