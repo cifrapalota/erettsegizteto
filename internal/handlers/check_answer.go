@@ -76,7 +76,8 @@ func checkAnswers(answerHolders []dbModels.AnswerHolder, answers []apiModels.Use
 	}
 
 	for _, answer := range answers {
-		answer.Answer = strings.ReplaceAll(answer.Answer, " ", "")
+		ans := strings.ReplaceAll(answer.Answer, " ", "")
+		ans = strings.ToLower(ans)
 
 		ah, ok := answerHolderMap[answer.AnswerHolderID]
 		if !ok {
@@ -86,8 +87,9 @@ func checkAnswers(answerHolders []dbModels.AnswerHolder, answers []apiModels.Use
 		found := false
 		for _, a := range ah.Answers {
 			aw := strings.ReplaceAll(a.Answer, " ", "")
+			aw = strings.ToLower(aw)
 
-			if aw == answer.Answer {
+			if aw == ans {
 				found = true
 				break
 			}
