@@ -21,6 +21,7 @@ footer {
 
 #logo {
   padding-top: 10px;
+  padding-bottom: 20px;
   width: 100%;
 }
 
@@ -96,7 +97,7 @@ footer {
 
 .png-shaped-button {
   background-color: transparent;
-  background-image: url("../img/blackboard.svg");
+  background-image: url("../img/blackboard2.svg");
   background-repeat: no-repeat;
   background-position: center;
   text-align: center;
@@ -121,7 +122,7 @@ footer {
 }
 
 .png-shaped-button:disabled {
-  background-image: url('../img/blackboard_hollow.svg');
+  background-image: url('../img/blackboard2_hollow.svg');
   background-color: transparent;
   color: black;
   opacity: 0.5;
